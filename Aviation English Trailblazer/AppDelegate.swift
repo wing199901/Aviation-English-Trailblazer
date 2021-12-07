@@ -7,6 +7,9 @@
 
 import UIKit
 
+// How to sign app
+// https://zhuanlan.zhihu.com/p/359449443
+
 // Loaded nib but the 'view' outlet was not set
 // https://stackoverflow.com/questions/4763519/loaded-nib-but-the-view-outlet-was-not-set
 
