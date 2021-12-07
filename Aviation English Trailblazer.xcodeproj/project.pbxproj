@@ -7,17 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D984DDFF1645C6D5AA860EE /* Pods_Aviation_English_Trailblazer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8294D09EB7B25D3FF6D3D0 /* Pods_Aviation_English_Trailblazer.framework */; };
 		A307D73B272A8AC5008C7E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D73A272A8AC5008C7E2A /* AppDelegate.swift */; };
-		A307D73D272A8AC5008C7E2A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A307D73C272A8AC5008C7E2A /* GameScene.sks */; };
-		A307D73F272A8AC5008C7E2A /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A307D73E272A8AC5008C7E2A /* Actions.sks */; };
-		A307D741272A8AC5008C7E2A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D740272A8AC5008C7E2A /* GameScene.swift */; };
-		A307D743272A8AC5008C7E2A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D742272A8AC5008C7E2A /* GameViewController.swift */; };
-		A307D746272A8AC5008C7E2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A307D744272A8AC5008C7E2A /* Main.storyboard */; };
 		A307D748272A8AC8008C7E2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A307D747272A8AC8008C7E2A /* Assets.xcassets */; };
 		A307D74B272A8AC8008C7E2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A307D749272A8AC8008C7E2A /* LaunchScreen.storyboard */; };
 		A307D755272A8AC8008C7E2A /* Aviation_English_TrailblazerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D754272A8AC8008C7E2A /* Aviation_English_TrailblazerTests.swift */; };
 		A307D75F272A8AC8008C7E2A /* Aviation_English_TrailblazerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D75E272A8AC8008C7E2A /* Aviation_English_TrailblazerUITests.swift */; };
 		A307D761272A8AC8008C7E2A /* Aviation_English_TrailblazerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D760272A8AC8008C7E2A /* Aviation_English_TrailblazerUITestsLaunchTests.swift */; };
+		A307D77A272BB2D7008C7E2A /* UIImage+addTextToImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D779272BB2D7008C7E2A /* UIImage+addTextToImage.swift */; };
+		A307D780272BF52D008C7E2A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A307D77F272BF52D008C7E2A /* GameScene.sks */; };
+		A307D782272BF53D008C7E2A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D781272BF53D008C7E2A /* GameScene.swift */; };
+		A32CA97D2747A5FF0050C150 /* PhraseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA9782747A5FE0050C150 /* PhraseList.swift */; };
+		A32CA97F2747A5FF0050C150 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA97A2747A5FE0050C150 /* Stack.swift */; };
+		A32CA9802747A5FF0050C150 /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA97B2747A5FE0050C150 /* Voice.swift */; };
+		A32CA9812747A5FF0050C150 /* TextToSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA97C2747A5FF0050C150 /* TextToSpeech.swift */; };
+		A395823527391DF200651C53 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A395823427391DF200651C53 /* GameViewController.swift */; };
+		A3982D9727461019005A2827 /* TimerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3982D9627461019005A2827 /* TimerLabel.swift */; };
+		A3982D9927461221005A2827 /* PlaneQtyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3982D9827461220005A2827 /* PlaneQtyLabel.swift */; };
+		A3982D9B27463FBF005A2827 /* ATISTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3982D9A27463FBF005A2827 /* ATISTextView.swift */; };
+		A3982D9F274640A9005A2827 /* String+removingCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3982D9E274640A9005A2827 /* String+removingCharacters.swift */; };
+		A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C767127573D38000F9AC4 /* RasaModel.swift */; };
+		A3A2268F272F971300A8D990 /* Font in Resources */ = {isa = PBXBuildFile; fileRef = A3A2268E272F971300A8D990 /* Font */; };
+		A3A22695272FDE9200A8D990 /* SpriteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22694272FDE9200A8D990 /* SpriteType.swift */; };
+		A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22696272FDF5D00A8D990 /* Plane.swift */; };
+		A3A22699272FE05100A8D990 /* Sprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22698272FE05100A8D990 /* Sprites.swift */; };
+		A3A226B42733FD8D00A8D990 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B32733FD8D00A8D990 /* Navigator.swift */; };
+		A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */; };
+		A3A226B92734113200A8D990 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B82734113200A8D990 /* Coordinator.swift */; };
+		A3A226BB2734117100A8D990 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226BA2734117100A8D990 /* AppCoordinator.swift */; };
+		A3A226BD2734136000A8D990 /* MenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226BC2734136000A8D990 /* MenuCoordinator.swift */; };
+		A3A226BF273413B800A8D990 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226BE273413B800A8D990 /* MenuViewController.swift */; };
+		A3A226C42734161600A8D990 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226C32734161600A8D990 /* MenuViewModel.swift */; };
+		A3A226C82734179B00A8D990 /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3A226C72734179B00A8D990 /* MenuViewController.xib */; };
+		A3B1A20D2734FEFA00AC3DC2 /* LevelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A20C2734FEFA00AC3DC2 /* LevelSource.swift */; };
+		A3B1A20F2735280400AC3DC2 /* LevelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3B1A20E2735280400AC3DC2 /* LevelView.xib */; };
+		A3B1A211273538A200AC3DC2 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A210273538A200AC3DC2 /* LevelView.swift */; };
+		A3B1A21327354AAB00AC3DC2 /* LevelDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A21227354AAB00AC3DC2 /* LevelDetailViewModel.swift */; };
+		A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */; };
+		A3C359B22754DBEB00097634 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A3C359B12754DBEB00097634 /* Alamofire */; };
+		A3C359B42754E43C00097634 /* SpeechLogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C359B32754E43C00097634 /* SpeechLogTextView.swift */; };
+		A3CC1EA32758B721000F2201 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CC1EA22758B721000F2201 /* Path.swift */; };
+		A3CD7E242738E45D00CA45D9 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD7E232738E45D00CA45D9 /* GameViewController.xib */; };
+		A3CD7E262738E69D00CA45D9 /* GameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */; };
+		A3CD7E282738E6EF00CA45D9 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CD7E272738E6EF00CA45D9 /* GameViewModel.swift */; };
+		A3CE78C82734C9D2000A7747 /* LevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE78C42734C9D2000A7747 /* LevelViewModel.swift */; };
+		A3CE78C92734C9D2000A7747 /* LevelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CE78C52734C9D2000A7747 /* LevelViewController.xib */; };
+		A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE78C62734C9D2000A7747 /* LevelViewController.swift */; };
+		A3CE78CB2734C9D2000A7747 /* LevelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE78C72734C9D2000A7747 /* LevelCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,13 +74,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5AFB8031B7E2C569BD91E632 /* Pods-Aviation English Trailblazer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.debug.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.debug.xcconfig"; sourceTree = "<group>"; };
+		5D8294D09EB7B25D3FF6D3D0 /* Pods_Aviation_English_Trailblazer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aviation_English_Trailblazer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A307D737272A8AC5008C7E2A /* Aviation English Trailblazer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aviation English Trailblazer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A307D73A272A8AC5008C7E2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A307D73C272A8AC5008C7E2A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		A307D73E272A8AC5008C7E2A /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		A307D740272A8AC5008C7E2A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		A307D742272A8AC5008C7E2A /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		A307D745272A8AC5008C7E2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A307D747272A8AC8008C7E2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A307D74A272A8AC8008C7E2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A307D750272A8AC8008C7E2A /* Aviation English TrailblazerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aviation English TrailblazerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +85,48 @@
 		A307D75A272A8AC8008C7E2A /* Aviation English TrailblazerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aviation English TrailblazerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A307D75E272A8AC8008C7E2A /* Aviation_English_TrailblazerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aviation_English_TrailblazerUITests.swift; sourceTree = "<group>"; };
 		A307D760272A8AC8008C7E2A /* Aviation_English_TrailblazerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aviation_English_TrailblazerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A307D779272BB2D7008C7E2A /* UIImage+addTextToImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+addTextToImage.swift"; sourceTree = "<group>"; };
+		A307D77F272BF52D008C7E2A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		A307D781272BF53D008C7E2A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A32CA9782747A5FE0050C150 /* PhraseList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhraseList.swift; sourceTree = "<group>"; };
+		A32CA97A2747A5FE0050C150 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		A32CA97B2747A5FE0050C150 /* Voice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
+		A32CA97C2747A5FF0050C150 /* TextToSpeech.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextToSpeech.swift; sourceTree = "<group>"; };
+		A34527732734D2DE001717F1 /* Aviation English Trailblazer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aviation English Trailblazer-Bridging-Header.h"; sourceTree = "<group>"; };
+		A395823427391DF200651C53 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		A3982D9627461019005A2827 /* TimerLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerLabel.swift; sourceTree = "<group>"; };
+		A3982D9827461220005A2827 /* PlaneQtyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaneQtyLabel.swift; sourceTree = "<group>"; };
+		A3982D9A27463FBF005A2827 /* ATISTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATISTextView.swift; sourceTree = "<group>"; };
+		A3982D9E274640A9005A2827 /* String+removingCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+removingCharacters.swift"; sourceTree = "<group>"; };
+		A39C767127573D38000F9AC4 /* RasaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RasaModel.swift; sourceTree = "<group>"; };
+		A3A2268E272F971300A8D990 /* Font */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Font; sourceTree = SOURCE_ROOT; };
+		A3A22694272FDE9200A8D990 /* SpriteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteType.swift; sourceTree = "<group>"; };
+		A3A22696272FDF5D00A8D990 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		A3A22698272FE05100A8D990 /* Sprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sprites.swift; sourceTree = "<group>"; };
+		A3A226B32733FD8D00A8D990 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
+		A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatorTransitionType.swift; sourceTree = "<group>"; };
+		A3A226B82734113200A8D990 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		A3A226BA2734117100A8D990 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		A3A226BC2734136000A8D990 /* MenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCoordinator.swift; sourceTree = "<group>"; };
+		A3A226BE273413B800A8D990 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		A3A226C32734161600A8D990 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		A3A226C72734179B00A8D990 /* MenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuViewController.xib; sourceTree = "<group>"; };
+		A3B1A20C2734FEFA00AC3DC2 /* LevelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSource.swift; sourceTree = "<group>"; };
+		A3B1A20E2735280400AC3DC2 /* LevelView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LevelView.xib; sourceTree = "<group>"; };
+		A3B1A210273538A200AC3DC2 /* LevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
+		A3B1A21227354AAB00AC3DC2 /* LevelDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDetailViewModel.swift; sourceTree = "<group>"; };
+		A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
+		A3C359B32754E43C00097634 /* SpeechLogTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechLogTextView.swift; sourceTree = "<group>"; };
+		A3CC1EA22758B721000F2201 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		A3CD7E232738E45D00CA45D9 /* GameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
+		A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCoordinator.swift; sourceTree = "<group>"; };
+		A3CD7E272738E6EF00CA45D9 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		A3CE78C42734C9D2000A7747 /* LevelViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelViewModel.swift; sourceTree = "<group>"; };
+		A3CE78C52734C9D2000A7747 /* LevelViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LevelViewController.xib; sourceTree = "<group>"; };
+		A3CE78C62734C9D2000A7747 /* LevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelViewController.swift; sourceTree = "<group>"; };
+		A3CE78C72734C9D2000A7747 /* LevelCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelCoordinator.swift; sourceTree = "<group>"; };
+		A3D93294273E2C8F00E9379B /* Aviation-English-Trailblazer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Aviation-English-Trailblazer-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.release.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +134,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D984DDFF1645C6D5AA860EE /* Pods_Aviation_English_Trailblazer.framework in Frameworks */,
+				A3C359B22754DBEB00097634 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,12 +156,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		712D84C3EF016DA295D2FD11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D8294D09EB7B25D3FF6D3D0 /* Pods_Aviation_English_Trailblazer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A307D72E272A8AC5008C7E2A = {
 			isa = PBXGroup;
 			children = (
 				A307D739272A8AC5008C7E2A /* Aviation English Trailblazer */,
 				A307D753272A8AC8008C7E2A /* Aviation English TrailblazerTests */,
 				A307D75D272A8AC8008C7E2A /* Aviation English TrailblazerUITests */,
+				712D84C3EF016DA295D2FD11 /* Frameworks */,
+				C3C3AED1F1C8EE7FF4D2DB49 /* Pods */,
 				A307D738272A8AC5008C7E2A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,14 +189,22 @@
 		A307D739272A8AC5008C7E2A /* Aviation English Trailblazer */ = {
 			isa = PBXGroup;
 			children = (
+				A3A226BA2734117100A8D990 /* AppCoordinator.swift */,
 				A307D73A272A8AC5008C7E2A /* AppDelegate.swift */,
-				A307D73C272A8AC5008C7E2A /* GameScene.sks */,
-				A307D73E272A8AC5008C7E2A /* Actions.sks */,
-				A307D740272A8AC5008C7E2A /* GameScene.swift */,
-				A307D742272A8AC5008C7E2A /* GameViewController.swift */,
-				A307D744272A8AC5008C7E2A /* Main.storyboard */,
 				A307D747272A8AC8008C7E2A /* Assets.xcassets */,
+				A34527732734D2DE001717F1 /* Aviation English Trailblazer-Bridging-Header.h */,
+				A3D93294273E2C8F00E9379B /* Aviation-English-Trailblazer-Info.plist */,
+				A3A226B82734113200A8D990 /* Coordinator.swift */,
+				A307D778272BB2B9008C7E2A /* Extension */,
+				A3A2268E272F971300A8D990 /* Font */,
+				A3A2269E272FF4A000A8D990 /* Game */,
+				A3A2269F272FF4AC00A8D990 /* Gave Over */,
 				A307D749272A8AC8008C7E2A /* LaunchScreen.storyboard */,
+				A3A2269D272FF48C00A8D990 /* Level */,
+				A3A2269C272FF47F00A8D990 /* Menu */,
+				A3A226B52733FE3700A8D990 /* Navigator */,
+				A32CA9772747A5ED0050C150 /* Speech */,
+				A3A22693272FDE7500A8D990 /* Sprite */,
 			);
 			path = "Aviation English Trailblazer";
 			sourceTree = "<group>";
@@ -131,6 +226,107 @@
 			path = "Aviation English TrailblazerUITests";
 			sourceTree = "<group>";
 		};
+		A307D778272BB2B9008C7E2A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */,
+				A307D779272BB2D7008C7E2A /* UIImage+addTextToImage.swift */,
+				A3982D9E274640A9005A2827 /* String+removingCharacters.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		A32CA9772747A5ED0050C150 /* Speech */ = {
+			isa = PBXGroup;
+			children = (
+				A32CA9782747A5FE0050C150 /* PhraseList.swift */,
+				A32CA97A2747A5FE0050C150 /* Stack.swift */,
+				A32CA97C2747A5FF0050C150 /* TextToSpeech.swift */,
+				A32CA97B2747A5FE0050C150 /* Voice.swift */,
+			);
+			path = Speech;
+			sourceTree = "<group>";
+		};
+		A3A22693272FDE7500A8D990 /* Sprite */ = {
+			isa = PBXGroup;
+			children = (
+				A3A22694272FDE9200A8D990 /* SpriteType.swift */,
+				A3A22696272FDF5D00A8D990 /* Plane.swift */,
+				A3A22698272FE05100A8D990 /* Sprites.swift */,
+			);
+			path = Sprite;
+			sourceTree = "<group>";
+		};
+		A3A2269C272FF47F00A8D990 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				A3A226BC2734136000A8D990 /* MenuCoordinator.swift */,
+				A3A226BE273413B800A8D990 /* MenuViewController.swift */,
+				A3A226C72734179B00A8D990 /* MenuViewController.xib */,
+				A3A226C32734161600A8D990 /* MenuViewModel.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		A3A2269D272FF48C00A8D990 /* Level */ = {
+			isa = PBXGroup;
+			children = (
+				A3CE78C72734C9D2000A7747 /* LevelCoordinator.swift */,
+				A3B1A20C2734FEFA00AC3DC2 /* LevelSource.swift */,
+				A3B1A210273538A200AC3DC2 /* LevelView.swift */,
+				A3B1A20E2735280400AC3DC2 /* LevelView.xib */,
+				A3CE78C62734C9D2000A7747 /* LevelViewController.swift */,
+				A3CE78C52734C9D2000A7747 /* LevelViewController.xib */,
+				A3CE78C42734C9D2000A7747 /* LevelViewModel.swift */,
+				A3B1A21227354AAB00AC3DC2 /* LevelDetailViewModel.swift */,
+			);
+			path = Level;
+			sourceTree = "<group>";
+		};
+		A3A2269E272FF4A000A8D990 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				A307D77F272BF52D008C7E2A /* GameScene.sks */,
+				A307D781272BF53D008C7E2A /* GameScene.swift */,
+				A3CD7E232738E45D00CA45D9 /* GameViewController.xib */,
+				A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */,
+				A3CD7E272738E6EF00CA45D9 /* GameViewModel.swift */,
+				A395823427391DF200651C53 /* GameViewController.swift */,
+				A3982D9627461019005A2827 /* TimerLabel.swift */,
+				A3982D9827461220005A2827 /* PlaneQtyLabel.swift */,
+				A3982D9A27463FBF005A2827 /* ATISTextView.swift */,
+				A3C359B32754E43C00097634 /* SpeechLogTextView.swift */,
+				A39C767127573D38000F9AC4 /* RasaModel.swift */,
+				A3CC1EA22758B721000F2201 /* Path.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		A3A2269F272FF4AC00A8D990 /* Gave Over */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Gave Over";
+			sourceTree = "<group>";
+		};
+		A3A226B52733FE3700A8D990 /* Navigator */ = {
+			isa = PBXGroup;
+			children = (
+				A3A226B32733FD8D00A8D990 /* Navigator.swift */,
+				A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */,
+			);
+			path = Navigator;
+			sourceTree = "<group>";
+		};
+		C3C3AED1F1C8EE7FF4D2DB49 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5AFB8031B7E2C569BD91E632 /* Pods-Aviation English Trailblazer.debug.xcconfig */,
+				AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,15 +334,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A307D764272A8AC8008C7E2A /* Build configuration list for PBXNativeTarget "Aviation English Trailblazer" */;
 			buildPhases = (
+				24C1F741A687DD8E2E7420D8 /* [CP] Check Pods Manifest.lock */,
 				A307D733272A8AC5008C7E2A /* Sources */,
 				A307D734272A8AC5008C7E2A /* Frameworks */,
 				A307D735272A8AC5008C7E2A /* Resources */,
+				907A3777059FA0163185477D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Aviation English Trailblazer";
+			packageProductDependencies = (
+				A3C359B12754DBEB00097634 /* Alamofire */,
+			);
 			productName = "Aviation English Trailblazer";
 			productReference = A307D737272A8AC5008C7E2A /* Aviation English Trailblazer.app */;
 			productType = "com.apple.product-type.application";
@@ -219,6 +420,9 @@
 				Base,
 			);
 			mainGroup = A307D72E272A8AC5008C7E2A;
+			packageReferences = (
+				A3C359B02754DBEB00097634 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = A307D738272A8AC5008C7E2A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,11 +439,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A307D746272A8AC5008C7E2A /* Main.storyboard in Resources */,
-				A307D73D272A8AC5008C7E2A /* GameScene.sks in Resources */,
+				A3A226C82734179B00A8D990 /* MenuViewController.xib in Resources */,
+				A3B1A20F2735280400AC3DC2 /* LevelView.xib in Resources */,
 				A307D748272A8AC8008C7E2A /* Assets.xcassets in Resources */,
+				A3CD7E242738E45D00CA45D9 /* GameViewController.xib in Resources */,
+				A3A2268F272F971300A8D990 /* Font in Resources */,
+				A307D780272BF52D008C7E2A /* GameScene.sks in Resources */,
+				A3CE78C92734C9D2000A7747 /* LevelViewController.xib in Resources */,
 				A307D74B272A8AC8008C7E2A /* LaunchScreen.storyboard in Resources */,
-				A307D73F272A8AC5008C7E2A /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,14 +466,87 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		24C1F741A687DD8E2E7420D8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Aviation English Trailblazer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		907A3777059FA0163185477D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A307D733272A8AC5008C7E2A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A307D741272A8AC5008C7E2A /* GameScene.swift in Sources */,
-				A307D743272A8AC5008C7E2A /* GameViewController.swift in Sources */,
+				A3982D9F274640A9005A2827 /* String+removingCharacters.swift in Sources */,
+				A3A22695272FDE9200A8D990 /* SpriteType.swift in Sources */,
+				A3982D9727461019005A2827 /* TimerLabel.swift in Sources */,
+				A3B1A20D2734FEFA00AC3DC2 /* LevelSource.swift in Sources */,
+				A3982D9B27463FBF005A2827 /* ATISTextView.swift in Sources */,
+				A3B1A211273538A200AC3DC2 /* LevelView.swift in Sources */,
+				A3A226B92734113200A8D990 /* Coordinator.swift in Sources */,
+				A3982D9927461221005A2827 /* PlaneQtyLabel.swift in Sources */,
+				A395823527391DF200651C53 /* GameViewController.swift in Sources */,
+				A3B1A21327354AAB00AC3DC2 /* LevelDetailViewModel.swift in Sources */,
+				A3CE78C82734C9D2000A7747 /* LevelViewModel.swift in Sources */,
+				A3CD7E282738E6EF00CA45D9 /* GameViewModel.swift in Sources */,
+				A3A226C42734161600A8D990 /* MenuViewModel.swift in Sources */,
+				A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */,
+				A3A226BB2734117100A8D990 /* AppCoordinator.swift in Sources */,
+				A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */,
+				A32CA9802747A5FF0050C150 /* Voice.swift in Sources */,
+				A3CE78CB2734C9D2000A7747 /* LevelCoordinator.swift in Sources */,
+				A3A226B42733FD8D00A8D990 /* Navigator.swift in Sources */,
+				A32CA97D2747A5FF0050C150 /* PhraseList.swift in Sources */,
+				A3A226BD2734136000A8D990 /* MenuCoordinator.swift in Sources */,
+				A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */,
+				A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */,
+				A307D77A272BB2D7008C7E2A /* UIImage+addTextToImage.swift in Sources */,
+				A3A22699272FE05100A8D990 /* Sprites.swift in Sources */,
+				A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */,
+				A3A226BF273413B800A8D990 /* MenuViewController.swift in Sources */,
+				A3CD7E262738E69D00CA45D9 /* GameCoordinator.swift in Sources */,
+				A3C359B42754E43C00097634 /* SpeechLogTextView.swift in Sources */,
 				A307D73B272A8AC5008C7E2A /* AppDelegate.swift in Sources */,
+				A32CA9812747A5FF0050C150 /* TextToSpeech.swift in Sources */,
+				A32CA97F2747A5FF0050C150 /* Stack.swift in Sources */,
+				A307D782272BF53D008C7E2A /* GameScene.swift in Sources */,
+				A3CC1EA32758B721000F2201 /* Path.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,14 +583,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		A307D744272A8AC5008C7E2A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A307D745272A8AC5008C7E2A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A307D749272A8AC8008C7E2A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -373,7 +645,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -428,7 +700,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -440,57 +712,66 @@
 		};
 		A307D765272A8AC8008C7E2A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AFB8031B7E2C569BD91E632 /* Pods-Aviation English Trailblazer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Aviation-English-Trailblazer-Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone is needed for speech recognition";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Aerosim.Aviation-English-Trailblazer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
 		A307D766272A8AC8008C7E2A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Aviation-English-Trailblazer-Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone is needed for speech recognition";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Aerosim.Aviation-English-Trailblazer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O ";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
@@ -503,7 +784,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -528,7 +809,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -630,6 +911,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A3C359B02754DBEB00097634 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A3C359B12754DBEB00097634 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A3C359B02754DBEB00097634 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A307D72F272A8AC5008C7E2A /* Project object */;
 }

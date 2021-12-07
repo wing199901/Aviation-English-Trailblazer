@@ -7,14 +7,19 @@
 
 import UIKit
 
-@main
+// Loaded nib but the 'view' outlet was not set
+// https://stackoverflow.com/questions/4763519/loaded-nib-but-the-view-outlet-was-not-set
+
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
-
+    var appCoordinator: AppCoordinator!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        setupCoordinator()
+
         return true
     }
 
@@ -34,7 +39,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
-
 }
 
+private extension AppDelegate {
+    // MARK: PROPERTIES
+    var navigationController: UINavigationController {
+        let navigationController = UINavigationController()
+        navigationController.isNavigationBarHidden = true
+
+        return navigationController
+    }
+
+    // MARK: COORDINATOR
+    func setupCoordinator() {
+        window = UIWindow()
+        guard let window = window else { return }
+
+        let navigator = Navigator(navigationController: navigationController)
+        appCoordinator = AppCoordinator(window: window, navigator: navigator)
+        appCoordinator.start()
+        window.makeKeyAndVisible()
+    }
+}

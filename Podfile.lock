@@ -1,0 +1,24 @@
+PODS:
+  - iCarousel (1.8.3)
+  - MicrosoftCognitiveServicesSpeech-iOS (1.19.0)
+  - Sucrose (4.0.0)
+
+DEPENDENCIES:
+  - iCarousel (~> 1.8)
+  - MicrosoftCognitiveServicesSpeech-iOS (~> 1.19.0)
+  - Sucrose
+
+SPEC REPOS:
+  trunk:
+    - iCarousel
+    - MicrosoftCognitiveServicesSpeech-iOS
+    - Sucrose
+
+SPEC CHECKSUMS:
+  iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
+  MicrosoftCognitiveServicesSpeech-iOS: c41eadd933ee6612fc2e23b3b206f4d3f48e3029
+  Sucrose: 12d111b494a5d09a6605419e7830786f6f71febd
+
+PODFILE CHECKSUM: 0b21b8fbfe51c3c22d633cc93a42ffdf7e4bc1fd
+
+COCOAPODS: 1.11.2
