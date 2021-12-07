@@ -12,14 +12,14 @@ import SpriteKit
 import UIKit
 
 protocol GameViewControllerNavigation: AnyObject {
-    func didPressExit()
+    func didPressExit(senderIDArr: [String])
 }
 
 class GameViewController: UIViewController {
     @IBOutlet private var skView: SKView!
     @IBOutlet private var exitButton: UIButton!
     @IBOutlet private var timerLabel: TimerLabel!
-    @IBOutlet  var planeQtyLabel: PlaneQtyLabel!
+    @IBOutlet var planeQtyLabel: PlaneQtyLabel!
     @IBOutlet var atisTextView: ATISTextView!
     @IBOutlet private var speechRecognizeTextView: UITextView!
     @IBOutlet var speechLogTextView: SpeechLogTextView!
@@ -50,6 +50,8 @@ class GameViewController: UIViewController {
 
     var senderID: String = ""
 
+    var senderIDArr = [String]()
+
     init(viewModel: LevelDetailViewModelRepresentable) {
         defer {
             self.viewModel = viewModel
@@ -72,11 +74,29 @@ class GameViewController: UIViewController {
 
         setupSpriteKitView()
 
-        timerLabel.resetTimer(seconds: 900)
+        timerLabel.resetTimer(seconds: 600)
         timerLabel.runTimer()
+
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
+            if !timerLabel.isRunning() {
+                timer.invalidate()
+                /// Stop text to speech
+                stopSynthesis()
+                navigationDelegate?.didPressExit(senderIDArr: senderIDArr)
+            }
+        }
 
         planeQtyLabel.setTotal(total: viewModel!.planeQty)
 //        planeQtyLabel.isHidden = true
+
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
+            if planeQtyLabel.finished == planeQtyLabel.total {
+                timer.invalidate()
+                /// Stop text to speech
+                stopSynthesis()
+                navigationDelegate?.didPressExit(senderIDArr: senderIDArr)
+            }
+        }
 
         atisTextView.layer.contents = UIImage(named: "ATIS Border")?.cgImage
         atisTextView.update(action: "", runway: "", degree: "", knot: "", information: "")
@@ -321,9 +341,9 @@ class GameViewController: UIViewController {
             while isSpeaking {
                 sleep(UInt32(0.5))
             }
-//                try synthesizer.speakText(text.replacingOccurrences(matchingPattern: "\\d", replacementProvider: { numbers[$0] }))
+            try synthesizer!.speakText(text.replacingOccurrences(matchingPattern: "\\d", replacementProvider: { numbers[$0] }))
 
-            try synthesizer!.speakText(text)
+//            try synthesizer!.speakText(text)
 
         } catch {
             print("error \(error) happened")
@@ -373,7 +393,7 @@ class GameViewController: UIViewController {
     }
 
     @IBAction func exitButtonAction(_ sender: UIButton) {
-        navigationDelegate?.didPressExit()
+        navigationDelegate?.didPressExit(senderIDArr: senderIDArr)
     }
 }
 
@@ -382,5 +402,41 @@ extension GameViewController: GameSceneDelegate {
 //        guard let viewModel = viewModel else { return }
 //        animateScore(with: .disappearing)
 //        navigationDelegate?.gameViewController(self, didEndGameWith: viewModel.score.value)
+    }
+}
+
+let natoAlphabet = ["A": "Alpha", "B": "Bravo", "C": "Charlie", "D": "Delta", "E": "Echo", "F": "Foxtrot", "G": "Golf", "H": "Hotel", "I": "India", "J": "Juliett", "K": "Kilo", "L": "Lima", "M": "Mike", "N": "November", "O": "Oscar", "P": "Papa", "Q": "Quebec", "R": "Romeo", "S": "Sierra", "T": "Tango", "U": "Uniform", "V": "Victor", "W": "Whiskey", "X": "X-ray", "Y": "Yankee", "Z": "Zulu", "0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9"]
+
+let numbers = ["0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "niner"]
+
+extension String {
+    func nato(str: String) -> String {
+        var newString = ""
+        for char in str {
+            char == " " || char.isNumber ? newString.append(char) : newString.append(natoAlphabet[String(char).uppercased()]! + " ")
+        }
+        return newString
+    }
+
+    func replacingOccurrences(matchingPattern pattern: String) -> String {
+        let expression = try! NSRegularExpression(pattern: pattern, options: [])
+        let matches = expression.matches(in: self, options: [], range: NSRange(startIndex ..< endIndex, in: self))
+        return matches.reversed().reduce(into: self) { current, result in
+            let range = Range(result.range, in: current)!
+            let token = String(current[range])
+            let replacement = nato(str: token)
+            current.replaceSubrange(range, with: replacement)
+        }
+    }
+
+    func replacingOccurrences(matchingPattern pattern: String, replacementProvider: (String) -> String?) -> String {
+        let expression = try! NSRegularExpression(pattern: pattern, options: [])
+        let matches = expression.matches(in: self, options: [], range: NSRange(startIndex ..< endIndex, in: self))
+        return matches.reversed().reduce(into: self) { current, result in
+            let range = Range(result.range, in: current)!
+            let token = String(current[range])
+            guard let replacement = replacementProvider(token) else { return }
+            current.replaceSubrange(range, with: " " + replacement)
+        }
     }
 }

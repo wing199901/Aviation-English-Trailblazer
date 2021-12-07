@@ -1,11 +1,15 @@
 //
-//  MenuCoordinator.swift
+//  GameOverCoordinator.swift
 //  Aviation English Trailblazer
 //
 //  Created by Steven Siu  on 4/11/2021.
 //
 
-class MenuCoordinator: Coordinator {
+class GameOverCoordinator: Coordinator {
+    func start() {
+        
+    }
+    
     var coordinators: [Coordinator] = []
     weak var coordinatorDelegate: CoordinatorDelegate?
 
@@ -15,22 +19,22 @@ class MenuCoordinator: Coordinator {
         self.navigator = navigator
     }
 
-    func start() {
+    func start(senderIDArr:[String]) {
         coordinatorDelegate?.coordinatorDidStart(self)
-        navigator.transition(to: viewController(), as: .push)
+        navigator.transition(to: viewController(senderIDArr: senderIDArr), as: .push)
     }
 
-    private func viewController() -> MenuViewController {
-        let viewModel = MenuViewModel()
-        let viewController = MenuViewController(viewModel: viewModel)
+    private func viewController(senderIDArr:[String]) -> GameOverViewController {
+        let viewModel = GameOverViewModel(senderIDArr: senderIDArr)
+        let viewController = GameOverViewController(viewModel: viewModel)
         viewController.navigationDelegate = self
 
         return viewController
     }
 }
 
-extension MenuCoordinator: MenuViewNavigationDelegate {
-    func didPressEnter(menuViewController: MenuViewController) {
+extension GameOverCoordinator: GameOverViewNavigationDelegate {
+    func didPressBack(gameOverViewController: GameOverViewController) {
         let levelCoordinator = LevelCoordinator(navigator: navigator)
         levelCoordinator.coordinatorDelegate = self
         levelCoordinator.start()

@@ -47,7 +47,7 @@ struct Stack {
             .replacingOccurrences(of: "Expecte", with: "expect")
             .replacingOccurrences(of: "X packed", with: "expect")
         /// Replace short form call sign to full form
-//            .replacingCallSign()
+        // .replacingCallSign()
 //            .replacingTaxiway()
         /// Replace short form holding point to full form
 //            .replacingOccurrences(matchingPattern: "\\b([A-Z,a-z]{1})\\s?([0-9]{1})\\b")

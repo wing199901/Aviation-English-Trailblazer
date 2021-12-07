@@ -87,8 +87,6 @@ class GetSenderIDState: GKState {
 
         viewController.scenarioID = String(format: "%04d", (Int(viewController.scenarioID.prefix(4)) ?? 0) + 1) + "00"
 
-        // debugPrint(viewController.scene?.scenarioID)
-
         // Rasa get sender id
         var parameters = RasaRequest(message: "getid", sender: viewController.scenarioID)
 
@@ -97,6 +95,7 @@ class GetSenderIDState: GKState {
                 case .success(let JSON):
                     debugPrint("Response: \(JSON)")
                     viewController.senderID = response.value?.text ?? ""
+                    viewController.senderIDArr.append(response.value?.text ?? "")
 
                     // Rasa send empty string to get action
                     parameters = RasaRequest(message: "test", sender: viewController.senderID)
@@ -365,11 +364,11 @@ class RequestTaxiState: GKState {
                 case .success(let JSON):
                     debugPrint("Response: \(JSON)")
 
-                    viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
-
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        viewController.synthesisToSpeaker(response.value?.text ?? "")
-                    }
+//                    viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
+//
+//                    DispatchQueue.global(qos: .userInitiated).async {
+//                        viewController.synthesisToSpeaker(response.value?.text ?? "")
+//                    }
 
                     /// Rasa request taxi
                     parameters = RasaRequest(message: "ready taxi", sender: viewController.senderID)

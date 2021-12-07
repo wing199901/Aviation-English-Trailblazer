@@ -6,10 +6,8 @@
 //
 
 class GameCoordinator: Coordinator {
-    func start() {
-        
-    }
-    
+    func start() {}
+
     var coordinators: [Coordinator] = []
     weak var coordinatorDelegate: CoordinatorDelegate?
 
@@ -34,10 +32,9 @@ class GameCoordinator: Coordinator {
 }
 
 extension GameCoordinator: GameViewControllerNavigation {
-    func didPressExit() {
-        print("test")
-        let levelCoordinator = LevelCoordinator(navigator: navigator)
-        levelCoordinator.coordinatorDelegate = self
-        levelCoordinator.start()
+    func didPressExit(senderIDArr: [String]) {
+        let gameOverCoordinator = GameOverCoordinator(navigator: navigator)
+        gameOverCoordinator.coordinatorDelegate = self
+        gameOverCoordinator.start(senderIDArr: senderIDArr)
     }
 }

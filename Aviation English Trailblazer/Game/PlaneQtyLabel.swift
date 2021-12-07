@@ -21,7 +21,7 @@ class PlaneQtyLabel: UILabel {
         }
     }
 
-    private var total: Int = 0 // The number of total planes
+     var total: Int = 0 // The number of total planes
 
     // MARK: Method
 

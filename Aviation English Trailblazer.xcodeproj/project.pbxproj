@@ -54,6 +54,10 @@
 		A3CE78C92734C9D2000A7747 /* LevelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CE78C52734C9D2000A7747 /* LevelViewController.xib */; };
 		A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE78C62734C9D2000A7747 /* LevelViewController.swift */; };
 		A3CE78CB2734C9D2000A7747 /* LevelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CE78C72734C9D2000A7747 /* LevelCoordinator.swift */; };
+		A3DB4DB3275FCCB500CBBAAC /* GameOverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DB4DAF275FCCB400CBBAAC /* GameOverViewModel.swift */; };
+		A3DB4DB4275FCCB500CBBAAC /* GameOverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DB4DB0275FCCB400CBBAAC /* GameOverCoordinator.swift */; };
+		A3DB4DB5275FCCB500CBBAAC /* GameOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */; };
+		A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +130,10 @@
 		A3CE78C62734C9D2000A7747 /* LevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelViewController.swift; sourceTree = "<group>"; };
 		A3CE78C72734C9D2000A7747 /* LevelCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelCoordinator.swift; sourceTree = "<group>"; };
 		A3D93294273E2C8F00E9379B /* Aviation-English-Trailblazer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Aviation-English-Trailblazer-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A3DB4DAF275FCCB400CBBAAC /* GameOverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverViewModel.swift; sourceTree = "<group>"; };
+		A3DB4DB0275FCCB400CBBAAC /* GameOverCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverCoordinator.swift; sourceTree = "<group>"; };
+		A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameOverViewController.xib; sourceTree = "<group>"; };
+		A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.release.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,7 +206,7 @@
 				A307D778272BB2B9008C7E2A /* Extension */,
 				A3A2268E272F971300A8D990 /* Font */,
 				A3A2269E272FF4A000A8D990 /* Game */,
-				A3A2269F272FF4AC00A8D990 /* Gave Over */,
+				A3A2269F272FF4AC00A8D990 /* Game Over */,
 				A307D749272A8AC8008C7E2A /* LaunchScreen.storyboard */,
 				A3A2269D272FF48C00A8D990 /* Level */,
 				A3A2269C272FF47F00A8D990 /* Menu */,
@@ -302,11 +310,15 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		A3A2269F272FF4AC00A8D990 /* Gave Over */ = {
+		A3A2269F272FF4AC00A8D990 /* Game Over */ = {
 			isa = PBXGroup;
 			children = (
+				A3DB4DB0275FCCB400CBBAAC /* GameOverCoordinator.swift */,
+				A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */,
+				A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */,
+				A3DB4DAF275FCCB400CBBAAC /* GameOverViewModel.swift */,
 			);
-			path = "Gave Over";
+			path = "Game Over";
 			sourceTree = "<group>";
 		};
 		A3A226B52733FE3700A8D990 /* Navigator */ = {
@@ -443,6 +455,7 @@
 				A3B1A20F2735280400AC3DC2 /* LevelView.xib in Resources */,
 				A307D748272A8AC8008C7E2A /* Assets.xcassets in Resources */,
 				A3CD7E242738E45D00CA45D9 /* GameViewController.xib in Resources */,
+				A3DB4DB5275FCCB500CBBAAC /* GameOverViewController.xib in Resources */,
 				A3A2268F272F971300A8D990 /* Font in Resources */,
 				A307D780272BF52D008C7E2A /* GameScene.sks in Resources */,
 				A3CE78C92734C9D2000A7747 /* LevelViewController.xib in Resources */,
@@ -521,6 +534,7 @@
 				A3B1A211273538A200AC3DC2 /* LevelView.swift in Sources */,
 				A3A226B92734113200A8D990 /* Coordinator.swift in Sources */,
 				A3982D9927461221005A2827 /* PlaneQtyLabel.swift in Sources */,
+				A3DB4DB3275FCCB500CBBAAC /* GameOverViewModel.swift in Sources */,
 				A395823527391DF200651C53 /* GameViewController.swift in Sources */,
 				A3B1A21327354AAB00AC3DC2 /* LevelDetailViewModel.swift in Sources */,
 				A3CE78C82734C9D2000A7747 /* LevelViewModel.swift in Sources */,
@@ -537,6 +551,8 @@
 				A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */,
 				A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */,
 				A307D77A272BB2D7008C7E2A /* UIImage+addTextToImage.swift in Sources */,
+				A3DB4DB4275FCCB500CBBAAC /* GameOverCoordinator.swift in Sources */,
+				A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */,
 				A3A22699272FE05100A8D990 /* Sprites.swift in Sources */,
 				A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */,
 				A3A226BF273413B800A8D990 /* MenuViewController.swift in Sources */,
