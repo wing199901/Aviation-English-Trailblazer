@@ -294,18 +294,18 @@
 		A3A2269E272FF4A000A8D990 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				A3982D9A27463FBF005A2827 /* ATISTextView.swift */,
+				A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */,
 				A307D77F272BF52D008C7E2A /* GameScene.sks */,
 				A307D781272BF53D008C7E2A /* GameScene.swift */,
-				A3CD7E232738E45D00CA45D9 /* GameViewController.xib */,
-				A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */,
-				A3CD7E272738E6EF00CA45D9 /* GameViewModel.swift */,
 				A395823427391DF200651C53 /* GameViewController.swift */,
-				A3982D9627461019005A2827 /* TimerLabel.swift */,
-				A3982D9827461220005A2827 /* PlaneQtyLabel.swift */,
-				A3982D9A27463FBF005A2827 /* ATISTextView.swift */,
-				A3C359B32754E43C00097634 /* SpeechLogTextView.swift */,
-				A39C767127573D38000F9AC4 /* RasaModel.swift */,
+				A3CD7E232738E45D00CA45D9 /* GameViewController.xib */,
+				A3CD7E272738E6EF00CA45D9 /* GameViewModel.swift */,
 				A3CC1EA22758B721000F2201 /* Path.swift */,
+				A3982D9827461220005A2827 /* PlaneQtyLabel.swift */,
+				A39C767127573D38000F9AC4 /* RasaModel.swift */,
+				A3C359B32754E43C00097634 /* SpeechLogTextView.swift */,
+				A3982D9627461019005A2827 /* TimerLabel.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -736,7 +736,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Aviation-English-Trailblazer-Info.plist";
@@ -748,6 +748,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_PREPROCESS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -760,6 +761,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -771,7 +773,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Aviation-English-Trailblazer-Info.plist";
@@ -783,6 +785,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_PREPROCESS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -796,6 +799,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -805,7 +809,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -830,7 +834,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -854,7 +858,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -877,7 +881,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

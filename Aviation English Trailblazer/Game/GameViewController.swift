@@ -42,7 +42,7 @@ class GameViewController: UIViewController {
     // Text to speech
     var synthesizer: SPXSpeechSynthesizer?
     var voice: String = "en-US-GuyNeural"
-    var isSpeaking: Bool = false
+    var isSynthesizerSpeaking: Bool = false
 
     // Rasa
 
@@ -74,9 +74,11 @@ class GameViewController: UIViewController {
 
         setupSpriteKitView()
 
+        /// Set timer to 10 minutes
         timerLabel.resetTimer(seconds: 600)
         timerLabel.runTimer()
 
+        /// Game over by time out
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
             if !timerLabel.isRunning() {
                 timer.invalidate()
@@ -86,9 +88,10 @@ class GameViewController: UIViewController {
             }
         }
 
+        /// Set total plane number for planeQtyLabel
         planeQtyLabel.setTotal(total: viewModel!.planeQty)
-//        planeQtyLabel.isHidden = true
 
+        /// Game over by finish scene
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
             if planeQtyLabel.finished == planeQtyLabel.total {
                 timer.invalidate()
@@ -99,11 +102,14 @@ class GameViewController: UIViewController {
         }
 
         atisTextView.layer.contents = UIImage(named: "ATIS Border")?.cgImage
+        /// Init ATIS
         atisTextView.update(action: "", runway: "", degree: "", knot: "", information: "")
 
         setupSpeechRecognizeTextView()
 
         setupSpeechLogTextView()
+
+        // Setup Microsoft Cognitive Services Speech SDK
 
         sub = "089b98e458c7445faa685d919a1c9ca8"
         region = "eastasia"
@@ -173,57 +179,6 @@ class GameViewController: UIViewController {
             }
 
             stopRecognizeFromMic()
-        }
-
-        // Text to speech
-
-        do {
-            try speechConfig = SPXSpeechConfiguration(subscription: sub, region: region)
-            /// Set the synthesis language
-            speechConfig?.speechSynthesisLanguage = String(voice.prefix(5))
-            /// Set the voice name
-            speechConfig?.speechSynthesisVoiceName = voice
-            /// Set the synthesis output format
-            speechConfig?.setSpeechSynthesisOutputFormat(.riff16Khz16BitMonoPcm)
-        } catch {
-            print("error \(error) happened")
-            speechConfig = nil
-        }
-
-        synthesizer = try! SPXSpeechSynthesizer(speechConfiguration: speechConfig!, audioConfiguration: SPXAudioConfiguration())
-
-        // Connect callbacks
-        synthesizer!.addSynthesisStartedEventHandler { _, _ in
-            print("Synthesis started.")
-
-            self.isSpeaking = true
-        }
-
-        synthesizer!.addSynthesizingEventHandler { _, _ in
-            print("Synthesizing.")
-
-            self.isSpeaking = true
-        }
-
-        synthesizer!.addSynthesisCompletedEventHandler { _, _ in
-            print("Speech synthesis was completed.")
-
-            self.isSpeaking = false
-        }
-
-        synthesizer!.addSynthesisCanceledEventHandler { _, evt in
-            let cancellationDetails = try! SPXSpeechSynthesisCancellationDetails(fromCanceledSynthesisResult: evt.result)
-            print("CANCELED: ErrorCode= \(cancellationDetails.errorCode.rawValue)")
-            print("CANCELED: ErrorDetails= \(cancellationDetails.errorDetails as String?)")
-            print("CANCELED: Did you update the subscription info?")
-
-            self.isSpeaking = false
-        }
-
-        synthesizer!.addSynthesisWordBoundaryEventHandler { _, evt in
-            print("Word boundary event received. Audio offset: \(evt.audioOffset / 10000), text offset: \(evt.textOffset), word length: \(evt.wordLength)")
-
-            self.isSpeaking = true
         }
     }
 
@@ -336,9 +291,65 @@ class GameViewController: UIViewController {
     }
 
     func synthesisToSpeaker(_ text: String) {
+        if text.isEmpty {
+            return
+        }
+
+        var speechConfig: SPXSpeechConfiguration?
+
+        do {
+            try speechConfig = SPXSpeechConfiguration(subscription: sub, region: region)
+            /// Set the synthesis language
+            speechConfig?.speechSynthesisLanguage = String(voice.prefix(5))
+            /// Set the voice name
+            speechConfig?.speechSynthesisVoiceName = voice
+            /// Set the synthesis output format
+            speechConfig?.setSpeechSynthesisOutputFormat(.riff16Khz16BitMonoPcm)
+        } catch {
+            print("error \(error) happened")
+            speechConfig = nil
+        }
+
+        synthesizer = try! SPXSpeechSynthesizer(speechConfiguration: speechConfig!, audioConfiguration: SPXAudioConfiguration())
+
+        // Connect callbacks
+        synthesizer!.addSynthesisStartedEventHandler { _, _ in
+            print("Synthesis started.")
+
+            self.isSynthesizerSpeaking = true
+        }
+
+        synthesizer!.addSynthesizingEventHandler { _, _ in
+            print("Synthesizing.")
+
+            self.isSynthesizerSpeaking = true
+        }
+
+        synthesizer!.addSynthesisCompletedEventHandler { _, _ in
+            print("Speech synthesis was completed.")
+
+            self.isSynthesizerSpeaking = false
+        }
+
+        synthesizer!.addSynthesisCanceledEventHandler { _, evt in
+            let cancellationDetails = try! SPXSpeechSynthesisCancellationDetails(fromCanceledSynthesisResult: evt.result)
+            print("CANCELED: ErrorCode= \(cancellationDetails.errorCode.rawValue)")
+            print("CANCELED: ErrorDetails= \(cancellationDetails.errorDetails as String?)")
+            print("CANCELED: Did you update the subscription info?")
+
+            self.isSynthesizerSpeaking = false
+        }
+
+        synthesizer!.addSynthesisWordBoundaryEventHandler { _, evt in
+            print("Word boundary event received. Audio offset: \(evt.audioOffset / 10000), text offset: \(evt.textOffset), word length: \(evt.wordLength)")
+
+            self.isSynthesizerSpeaking = true
+        }
+
         // Start speaking
         do {
-            while isSpeaking {
+            /// Make a 0.5s pause between two speech
+            while isSynthesizerSpeaking {
                 sleep(UInt32(0.5))
             }
             try synthesizer!.speakText(text.replacingOccurrences(matchingPattern: "\\d", replacementProvider: { numbers[$0] }))
