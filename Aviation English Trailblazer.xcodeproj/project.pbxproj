@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D984DDFF1645C6D5AA860EE /* Pods_Aviation_English_Trailblazer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8294D09EB7B25D3FF6D3D0 /* Pods_Aviation_English_Trailblazer.framework */; };
 		A307D73B272A8AC5008C7E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A307D73A272A8AC5008C7E2A /* AppDelegate.swift */; };
 		A307D748272A8AC8008C7E2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A307D747272A8AC8008C7E2A /* Assets.xcassets */; };
 		A307D74B272A8AC8008C7E2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A307D749272A8AC8008C7E2A /* LaunchScreen.storyboard */; };
@@ -29,8 +28,7 @@
 		A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C767127573D38000F9AC4 /* RasaModel.swift */; };
 		A3A2268F272F971300A8D990 /* Font in Resources */ = {isa = PBXBuildFile; fileRef = A3A2268E272F971300A8D990 /* Font */; };
 		A3A22695272FDE9200A8D990 /* SpriteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22694272FDE9200A8D990 /* SpriteType.swift */; };
-		A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22696272FDF5D00A8D990 /* Plane.swift */; };
-		A3A22699272FE05100A8D990 /* Sprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22698272FE05100A8D990 /* Sprites.swift */; };
+		A3A22697272FDF5D00A8D990 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22696272FDF5D00A8D990 /* Player.swift */; };
 		A3A226B42733FD8D00A8D990 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B32733FD8D00A8D990 /* Navigator.swift */; };
 		A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */; };
 		A3A226B92734113200A8D990 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B82734113200A8D990 /* Coordinator.swift */; };
@@ -44,7 +42,6 @@
 		A3B1A211273538A200AC3DC2 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A210273538A200AC3DC2 /* LevelView.swift */; };
 		A3B1A21327354AAB00AC3DC2 /* LevelDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A21227354AAB00AC3DC2 /* LevelDetailViewModel.swift */; };
 		A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */; };
-		A3C359B22754DBEB00097634 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A3C359B12754DBEB00097634 /* Alamofire */; };
 		A3C359B42754E43C00097634 /* SpeechLogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C359B32754E43C00097634 /* SpeechLogTextView.swift */; };
 		A3CC1EA32758B721000F2201 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CC1EA22758B721000F2201 /* Path.swift */; };
 		A3CD7E242738E45D00CA45D9 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD7E232738E45D00CA45D9 /* GameViewController.xib */; };
@@ -58,6 +55,10 @@
 		A3DB4DB4275FCCB500CBBAAC /* GameOverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DB4DB0275FCCB400CBBAAC /* GameOverCoordinator.swift */; };
 		A3DB4DB5275FCCB500CBBAAC /* GameOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */; };
 		A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */; };
+		A3EB0A6C27685F48007737BF /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB0A6B27685F48007737BF /* SpriteFactory.swift */; };
+		A3EB0A6E27687A1E007737BF /* NPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB0A6D27687A1E007737BF /* NPC.swift */; };
+		A3EB0A702768A593007737BF /* String+replacingOccurrences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */; };
+		DBB693D3162B6B43AEB1417A /* Pods_Aviation_English_Trailblazer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB2BD349F9AEB2312596146 /* Pods_Aviation_English_Trailblazer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,8 +79,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5AFB8031B7E2C569BD91E632 /* Pods-Aviation English Trailblazer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.debug.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.debug.xcconfig"; sourceTree = "<group>"; };
-		5D8294D09EB7B25D3FF6D3D0 /* Pods_Aviation_English_Trailblazer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aviation_English_Trailblazer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72E88915A76A53DD8FAA12BC /* Pods-Aviation English Trailblazer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.release.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.release.xcconfig"; sourceTree = "<group>"; };
 		A307D737272A8AC5008C7E2A /* Aviation English Trailblazer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aviation English Trailblazer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A307D73A272A8AC5008C7E2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A307D747272A8AC8008C7E2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,8 +105,7 @@
 		A39C767127573D38000F9AC4 /* RasaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RasaModel.swift; sourceTree = "<group>"; };
 		A3A2268E272F971300A8D990 /* Font */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Font; sourceTree = SOURCE_ROOT; };
 		A3A22694272FDE9200A8D990 /* SpriteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteType.swift; sourceTree = "<group>"; };
-		A3A22696272FDF5D00A8D990 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
-		A3A22698272FE05100A8D990 /* Sprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sprites.swift; sourceTree = "<group>"; };
+		A3A22696272FDF5D00A8D990 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A3A226B32733FD8D00A8D990 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatorTransitionType.swift; sourceTree = "<group>"; };
 		A3A226B82734113200A8D990 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -134,7 +133,11 @@
 		A3DB4DB0275FCCB400CBBAAC /* GameOverCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverCoordinator.swift; sourceTree = "<group>"; };
 		A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameOverViewController.xib; sourceTree = "<group>"; };
 		A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
-		AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.release.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.release.xcconfig"; sourceTree = "<group>"; };
+		A3EB0A6B27685F48007737BF /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
+		A3EB0A6D27687A1E007737BF /* NPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPC.swift; sourceTree = "<group>"; };
+		A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+replacingOccurrences.swift"; sourceTree = "<group>"; };
+		D6301D785B4C0972C69681BF /* Pods-Aviation English Trailblazer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.debug.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.debug.xcconfig"; sourceTree = "<group>"; };
+		DFB2BD349F9AEB2312596146 /* Pods_Aviation_English_Trailblazer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aviation_English_Trailblazer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,8 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D984DDFF1645C6D5AA860EE /* Pods_Aviation_English_Trailblazer.framework in Frameworks */,
-				A3C359B22754DBEB00097634 /* Alamofire in Frameworks */,
+				DBB693D3162B6B43AEB1417A /* Pods_Aviation_English_Trailblazer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,10 +166,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		712D84C3EF016DA295D2FD11 /* Frameworks */ = {
+		4529DFC99F9B037C74E6F3FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5D8294D09EB7B25D3FF6D3D0 /* Pods_Aviation_English_Trailblazer.framework */,
+				DFB2BD349F9AEB2312596146 /* Pods_Aviation_English_Trailblazer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -178,9 +180,9 @@
 				A307D739272A8AC5008C7E2A /* Aviation English Trailblazer */,
 				A307D753272A8AC8008C7E2A /* Aviation English TrailblazerTests */,
 				A307D75D272A8AC8008C7E2A /* Aviation English TrailblazerUITests */,
-				712D84C3EF016DA295D2FD11 /* Frameworks */,
 				C3C3AED1F1C8EE7FF4D2DB49 /* Pods */,
 				A307D738272A8AC5008C7E2A /* Products */,
+				4529DFC99F9B037C74E6F3FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -259,8 +261,9 @@
 			isa = PBXGroup;
 			children = (
 				A3A22694272FDE9200A8D990 /* SpriteType.swift */,
-				A3A22696272FDF5D00A8D990 /* Plane.swift */,
-				A3A22698272FE05100A8D990 /* Sprites.swift */,
+				A3A22696272FDF5D00A8D990 /* Player.swift */,
+				A3EB0A6B27685F48007737BF /* SpriteFactory.swift */,
+				A3EB0A6D27687A1E007737BF /* NPC.swift */,
 			);
 			path = Sprite;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				A39C767127573D38000F9AC4 /* RasaModel.swift */,
 				A3C359B32754E43C00097634 /* SpeechLogTextView.swift */,
 				A3982D9627461019005A2827 /* TimerLabel.swift */,
+				A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -333,8 +337,8 @@
 		C3C3AED1F1C8EE7FF4D2DB49 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5AFB8031B7E2C569BD91E632 /* Pods-Aviation English Trailblazer.debug.xcconfig */,
-				AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */,
+				D6301D785B4C0972C69681BF /* Pods-Aviation English Trailblazer.debug.xcconfig */,
+				72E88915A76A53DD8FAA12BC /* Pods-Aviation English Trailblazer.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -346,20 +350,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A307D764272A8AC8008C7E2A /* Build configuration list for PBXNativeTarget "Aviation English Trailblazer" */;
 			buildPhases = (
-				24C1F741A687DD8E2E7420D8 /* [CP] Check Pods Manifest.lock */,
+				024E982C37D7068FAED1FA72 /* [CP] Check Pods Manifest.lock */,
 				A307D733272A8AC5008C7E2A /* Sources */,
 				A307D734272A8AC5008C7E2A /* Frameworks */,
 				A307D735272A8AC5008C7E2A /* Resources */,
-				907A3777059FA0163185477D /* [CP] Embed Pods Frameworks */,
+				182AE4A7FD14E1DD9BC61EF5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Aviation English Trailblazer";
-			packageProductDependencies = (
-				A3C359B12754DBEB00097634 /* Alamofire */,
-			);
 			productName = "Aviation English Trailblazer";
 			productReference = A307D737272A8AC5008C7E2A /* Aviation English Trailblazer.app */;
 			productType = "com.apple.product-type.application";
@@ -432,9 +433,6 @@
 				Base,
 			);
 			mainGroup = A307D72E272A8AC5008C7E2A;
-			packageReferences = (
-				A3C359B02754DBEB00097634 /* XCRemoteSwiftPackageReference "Alamofire" */,
-			);
 			productRefGroup = A307D738272A8AC5008C7E2A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -480,7 +478,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		24C1F741A687DD8E2E7420D8 /* [CP] Check Pods Manifest.lock */ = {
+		024E982C37D7068FAED1FA72 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -502,7 +500,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		907A3777059FA0163185477D /* [CP] Embed Pods Frameworks */ = {
+		182AE4A7FD14E1DD9BC61EF5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -540,20 +538,22 @@
 				A3CE78C82734C9D2000A7747 /* LevelViewModel.swift in Sources */,
 				A3CD7E282738E6EF00CA45D9 /* GameViewModel.swift in Sources */,
 				A3A226C42734161600A8D990 /* MenuViewModel.swift in Sources */,
-				A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */,
+				A3A22697272FDF5D00A8D990 /* Player.swift in Sources */,
 				A3A226BB2734117100A8D990 /* AppCoordinator.swift in Sources */,
 				A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */,
 				A32CA9802747A5FF0050C150 /* Voice.swift in Sources */,
 				A3CE78CB2734C9D2000A7747 /* LevelCoordinator.swift in Sources */,
 				A3A226B42733FD8D00A8D990 /* Navigator.swift in Sources */,
 				A32CA97D2747A5FF0050C150 /* PhraseList.swift in Sources */,
+				A3EB0A702768A593007737BF /* String+replacingOccurrences.swift in Sources */,
 				A3A226BD2734136000A8D990 /* MenuCoordinator.swift in Sources */,
+				A3EB0A6C27685F48007737BF /* SpriteFactory.swift in Sources */,
 				A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */,
 				A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */,
+				A3EB0A6E27687A1E007737BF /* NPC.swift in Sources */,
 				A307D77A272BB2D7008C7E2A /* UIImage+addTextToImage.swift in Sources */,
 				A3DB4DB4275FCCB500CBBAAC /* GameOverCoordinator.swift in Sources */,
 				A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */,
-				A3A22699272FE05100A8D990 /* Sprites.swift in Sources */,
 				A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */,
 				A3A226BF273413B800A8D990 /* MenuViewController.swift in Sources */,
 				A3CD7E262738E69D00CA45D9 /* GameCoordinator.swift in Sources */,
@@ -730,13 +730,13 @@
 		};
 		A307D765272A8AC8008C7E2A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5AFB8031B7E2C569BD91E632 /* Pods-Aviation English Trailblazer.debug.xcconfig */;
+			baseConfigurationReference = D6301D785B4C0972C69681BF /* Pods-Aviation English Trailblazer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Aviation-English-Trailblazer-Info.plist";
@@ -767,13 +767,13 @@
 		};
 		A307D766272A8AC8008C7E2A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFC887B2E12086171C6E72AC /* Pods-Aviation English Trailblazer.release.xcconfig */;
+			baseConfigurationReference = 72E88915A76A53DD8FAA12BC /* Pods-Aviation English Trailblazer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = Q54J46T4N9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Aviation-English-Trailblazer-Info.plist";
@@ -939,25 +939,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		A3C359B02754DBEB00097634 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.4.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		A3C359B12754DBEB00097634 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A3C359B02754DBEB00097634 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A307D72F272A8AC5008C7E2A /* Project object */;
 }

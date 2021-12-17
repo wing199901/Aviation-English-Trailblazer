@@ -1,18 +1,19 @@
 //
-//  Sprites.swift
+//  SpriteFactory.swift
 //  Aviation English Trailblazer
 //
-//  Created by Steven Siu  on 1/11/2021.
+//  Created by Steven Siu  on 14/12/2021.
 //
 
 import SpriteKit
 
-enum Sprites {
+enum SpriteFactory {
+    // MARK: - Functions
     static func sprite(type: SpriteType) -> SKSpriteNode {
         let sprite = type.node
 
+        sprite.anchorPoint = type.anchorPoint
         sprite.size = type.size
-        //sprite.position = type.position(frame: frame)
         sprite.zPosition = type.zPosition
         sprite.zRotation = type.zRotation
         sprite.name = type.rawValue

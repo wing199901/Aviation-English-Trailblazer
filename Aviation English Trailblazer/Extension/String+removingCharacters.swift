@@ -13,6 +13,10 @@ extension String {
     /// - Parameter forbiddenCharacters: The charactor set to br removed
     /// - Returns: A string that removed character set
     func removingCharacters(inCharacterSet forbiddenCharacters: CharacterSet) -> String {
+        if self.isEmpty {
+            return ""
+        }
+
         var filteredString = self
         while true {
             if let forbiddenCharRange = filteredString.rangeOfCharacter(from: forbiddenCharacters) {

@@ -1,24 +1,28 @@
 PODS:
+  - Alamofire (5.5.0)
   - iCarousel (1.8.3)
   - MicrosoftCognitiveServicesSpeech-iOS (1.19.0)
   - Sucrose (4.0.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.5)
   - iCarousel (~> 1.8)
   - MicrosoftCognitiveServicesSpeech-iOS (~> 1.19.0)
   - Sucrose
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - iCarousel
     - MicrosoftCognitiveServicesSpeech-iOS
     - Sucrose
 
 SPEC CHECKSUMS:
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   MicrosoftCognitiveServicesSpeech-iOS: c41eadd933ee6612fc2e23b3b206f4d3f48e3029
   Sucrose: 12d111b494a5d09a6605419e7830786f6f71febd
 
-PODFILE CHECKSUM: 0b21b8fbfe51c3c22d633cc93a42ffdf7e4bc1fd
+PODFILE CHECKSUM: 85ecfc87ad668423fc05eddf9b4a56e22dd9a84f
 
 COCOAPODS: 1.11.2

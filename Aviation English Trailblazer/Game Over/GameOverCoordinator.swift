@@ -34,7 +34,7 @@ class GameOverCoordinator: Coordinator {
 }
 
 extension GameOverCoordinator: GameOverViewNavigationDelegate {
-    func didPressBack(gameOverViewController: GameOverViewController) {
+    func didPressExit(gameOverViewController: GameOverViewController) {
         let levelCoordinator = LevelCoordinator(navigator: navigator)
         levelCoordinator.coordinatorDelegate = self
         levelCoordinator.start()

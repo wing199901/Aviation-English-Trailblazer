@@ -14,7 +14,7 @@ extension CGFloat {
 import SpriteKit
 
 enum SpriteType: String {
-    case plane
+    case player = "plane"
     case npc
 }
 
@@ -25,31 +25,29 @@ extension SpriteType {
 
     var zPosition: CGFloat {
         switch self {
-        case .plane, .npc:
+        case .player, .npc:
             return 2
+        }
+    }
+
+    var zRotation: CGFloat {
+        switch self {
+        case .player, .npc:
+            return CGFloat(80).degreesToRadians()
         }
     }
 
     var size: CGSize {
         switch self {
-        case .plane, .npc:
+        case .player, .npc:
             return CGSize(width: 60, height: 75.9)
         }
     }
 
     var anchorPoint: CGPoint {
         switch self {
-        case .plane, .npc:
+        case .player, .npc:
             return CGPoint(x: 0.5, y: 0.55)
-        default:
-            return CGPoint(x: 0.5, y: 0.5)
-        }
-    }
-
-    var zRotation: CGFloat {
-        switch self {
-        case .plane, .npc:
-            return CGFloat(80).degreesToRadians()
         }
     }
 

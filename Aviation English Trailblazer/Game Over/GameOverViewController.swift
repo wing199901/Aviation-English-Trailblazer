@@ -10,11 +10,10 @@ import Sucrose
 import UIKit
 
 protocol GameOverViewNavigationDelegate: AnyObject {
-    func didPressBack(gameOverViewController: GameOverViewController)
+    func didPressExit(gameOverViewController: GameOverViewController)
 }
 
 class GameOverViewController: UIViewController {
-//    @IBOutlet private var enterButton: UIButton!
     @IBOutlet private var backButton: UIButton!
     @IBOutlet private var resultTextView: UITextView!
 
@@ -45,17 +44,23 @@ class GameOverViewController: UIViewController {
         AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/getlogbyid", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
             switch response.result {
                 case .success(let JSON):
-                    debugPrint("Response: \(JSON)")
+                    #if DEBUG
+                                debugPrint("Response: \(JSON)")
+                                #endif
 
                     self.resultTextView.text = response.value?.text
 
                 case .failure(let error):
+                    #if DEBUG
                     debugPrint("Failure: \(error)")
+                    #endif
             }
         }
     }
 
-    @IBAction func backButtonAction(_ sender: UIButton) {
-        navigationDelegate?.didPressBack(gameOverViewController: self)
+    @IBAction func exitButtonAction(_ sender: UIButton) {
+        /// Clear textView before exit
+        resultTextView.text = ""
+        navigationDelegate?.didPressExit(gameOverViewController: self)
     }
 }

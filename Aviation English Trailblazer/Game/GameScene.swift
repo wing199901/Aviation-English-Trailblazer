@@ -6,118 +6,148 @@
 //
 
 import Alamofire
-import Foundation
 import GameplayKit
 import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
-    func gameSceneDidEnd(_ gameScene: GameScene)
+//    func gameSceneDidEnd(_ gameScene: GameScene)
+    func addRasaSpeech(speaker: String, _ text: String)
+    func atisUpdate(data: RasaResponse)
+    func setPlanePosition(spawnPoint: SpawnPoint)
+    func finishPlanePlusOne()
+    func synthesisToSpeaker(_ text: String)
 }
 
 class GameScene: SKScene {
-    var plane: Plane!
-    var map: SKNode!
+    // MARK: - Sprites
+    var plane: Player!
+    private var map: SKNode!
     var actions: Path!
 
+    // MARK: - Properties
     weak var sceneDelegate: GameSceneDelegate?
 
     private var viewModel: LevelDetailViewModelRepresentable?
 
-    var viewController: GameViewController?
-
     var stateMachine: GKStateMachine?
-
-    func setViewModel(viewModel: LevelDetailViewModelRepresentable?) {
-        self.viewModel = viewModel
-    }
 
     var rasaData: RasaResponse?
 
+    // Rasa
+
+    var scenarioID: String = "001000"
+
+    var senderID: String = ""
+
+    var senderIDArr = [String]()
+
+    // MARK: - Life cycle
     override func didMove(to view: SKView) {
-        map = childNode(withName: "Map") as! SKSpriteNode
+        /// init scenario ID = 001100
+        scenarioID = scenarioID.replacingOccurrences(of: "1", with: String(viewModel!.id))
 
-        actions = Path(airport: map, screenFrame: frame)
+        setupSprite()
 
-        plane = Plane()
-        plane.node.position = actions.getSceneCGPoint(spawnPonit: .Terminal)
-
-        addChild(plane.node)
-
-        stateMachine = GameStateMachine(states: [GetSenderIDState(),
-                                                 DepartureState(),
-                                                 TaxiState(),
-                                                 RequestTakeoffState(),
-                                                 TakeoffState(),
-                                                 RequestLandingState(),
-                                                 LandingState(),
-                                                 RequestTaxiState(),
-                                                 TaxiState2()],
-                                        viewController: viewController!)
+        stateMachine = GKStateMachine(states: [GetSenderIDState(scene: self),
+                                               DepartureState(scene: self),
+                                               TaxiState(scene: self),
+                                               RequestTakeoffState(scene: self),
+                                               TakeoffState(scene: self),
+                                               RequestLandingState(scene: self),
+                                               LandingState(scene: self),
+                                               RequestTaxiState(scene: self),
+                                               TaxiState2(scene: self)]
+        )
 
         stateMachine?.enter(GetSenderIDState.self)
     }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        stateMachine?.update(deltaTime: currentTime)
+
+        /// Update plane position and rotation
+        plane.update()
     }
-}
 
-class GameStateMachine: GKStateMachine {
-    let viewController: GameViewController
+    // MARK: - Functions
+    func setViewModel(viewModel: LevelDetailViewModelRepresentable?) {
+        self.viewModel = viewModel
+    }
 
-    init(states: [GKState], viewController: GameViewController) {
-        self.viewController = viewController
+    func setupSprite() {
+        map = childNode(withName: "Map") as! SKSpriteNode
 
-        super.init(states: states)
+        actions = Path(airport: map, screenFrame: frame)
+
+        plane = Player()
+        plane.node.position = actions.getSceneCGPoint(spawnPonit: .Terminal)
+        plane.addCallSign("")
+
+        addChild(plane.node)
     }
 }
 
 class GetSenderIDState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter get sender id state")
+        #endif
 
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
+        /// Even plane equal a scenrio id
+        scene.scenarioID = String(format: "%04d", (Int(scene.scenarioID.prefix(4)) ?? 0) + 1) + "00"
 
-        let viewController = stateMachine.viewController
+        /// Rasa get sender id
+        var parameters = RasaRequest(message: "getid", sender: scene.scenarioID)
 
-        viewController.scenarioID = String(format: "%04d", (Int(viewController.scenarioID.prefix(4)) ?? 0) + 1) + "00"
-
-        // Rasa get sender id
-        var parameters = RasaRequest(message: "getid", sender: viewController.scenarioID)
-
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
             switch response.result {
                 case .success(let JSON):
+                    #if DEBUG
                     debugPrint("Response: \(JSON)")
-                    viewController.senderID = response.value?.text ?? ""
-                    viewController.senderIDArr.append(response.value?.text ?? "")
+                    #endif
 
-                    // Rasa send empty string to get action
-                    parameters = RasaRequest(message: "test", sender: viewController.senderID)
+                    scene.senderID = response.value?.text ?? ""
+                    scene.senderIDArr.append(response.value?.text ?? "")
+
+                    // Rasa send empty string to get json with details
+                    parameters = RasaRequest(message: "test", sender: scene.senderID)
 
                     AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
                         switch response.result {
                             case .success(let JSON):
+                                #if DEBUG
                                 debugPrint("Response: \(JSON)")
+                                #endif
+
+                                /// Add call sign to plane
+                                scene.plane.updateCallSignText(response.value?.callsign ?? "")
 
                                 if response.value!.action!.contains("departure") {
-                                    self.stateMachine?.enter(DepartureState.self)
+                                    stateMachine?.enter(DepartureState.self)
                                 } else {
-                                    self.stateMachine?.enter(RequestLandingState.self)
+                                    stateMachine?.enter(RequestLandingState.self)
                                 }
 
                             case .failure(let error):
+                                #if DEBUG
                                 debugPrint("Failure: \(error)")
+                                #endif
                         }
                     }
 
                 case .failure(let error):
+                    #if DEBUG
                     debugPrint("Failure: \(error)")
+                    #endif
             }
         }
     }
@@ -128,39 +158,48 @@ class GetSenderIDState: GKState {
 }
 
 class DepartureState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter departure state")
-
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
+        #endif
 
         /// Rasa departure
-        let parameters = RasaRequest(message: "departure", sender: viewController.senderID)
+        let parameters = RasaRequest(message: "departure", sender: scene.senderID)
 
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
             switch response.result {
                 case .success(let JSON):
+                    #if DEBUG
                     debugPrint("Response: \(JSON)")
+                    #endif
 
-                    viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
+                    scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                     DispatchQueue.global(qos: .userInitiated).async {
-                        viewController.synthesisToSpeaker(response.value?.text ?? "")
+                        scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
                     }
 
-                    viewController.atisTextView.update(action: response.value?.action ?? "", runway: response.value?.runway ?? "", degree: response.value?.degree ?? "", knot: response.value?.knot ?? "", information: response.value?.information ?? "")
+                    scene.sceneDelegate?.atisUpdate(data: response.value!)
+
+                    scene.rasaData = response.value
+
+                    scene.sceneDelegate?.setPlanePosition(spawnPoint: .Terminal)
 
                 case .failure(let error):
+                    #if DEBUG
                     debugPrint("Failure: \(error)")
+                    #endif
             }
         }
-
-        viewController.scene?.plane.node.position = (viewController.scene?.actions.getSceneCGPoint(spawnPonit: .Terminal))!
     }
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
@@ -169,38 +208,31 @@ class DepartureState: GKState {
 }
 
 class TaxiState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter taxi state")
+        #endif
 
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
-
-        // Rasa send empty string to get action
-        let parameters = RasaRequest(message: "test", sender: viewController.senderID)
-
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
-            switch response.result {
-                case .success(let JSON):
-                    debugPrint("Response: \(JSON)")
-
-                    if response.value?.runway == "28 RIGHT" {
-                        viewController.scene?.plane.node.run((viewController.scene?.actions.terminalToB1StopBars)!) {
-                            stateMachine.enter(RequestTakeoffState.self)
-                        }
-                    } else if response.value?.runway == "10 LEFT" {
-                        viewController.scene?.plane.node.run((viewController.scene?.actions.terminalToB5StopBars)!) {
-                            stateMachine.enter(RequestTakeoffState.self)
-                        }
-                    }
-
-                case .failure(let error):
-                    debugPrint("Failure: \(error)")
-            }
+        switch scene.rasaData?.runway {
+            case "28 RIGHT":
+                scene.plane.node.run(scene.actions.terminalToB1StopBars) {
+                    self.stateMachine?.enter(RequestTakeoffState.self)
+                }
+            case "10 LEFT":
+                scene.plane.node.run(scene.actions.terminalToB5StopBars) {
+                    self.stateMachine?.enter(RequestTakeoffState.self)
+                }
+            default:
+                print(scene.rasaData?.runway ?? "")
         }
     }
 
@@ -210,35 +242,42 @@ class TaxiState: GKState {
 }
 
 class RequestTakeoffState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter request takeoff state")
-
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
+        #endif
 
         /// Rasa request takeoff
-        let parameters = RasaRequest(message: "ready takeoff", sender: viewController.senderID)
+        let parameters = RasaRequest(message: "ready takeoff", sender: scene.senderID)
 
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
             switch response.result {
                 case .success(let JSON):
+                    #if DEBUG
                     debugPrint("Response: \(JSON)")
+                    #endif
 
-                    viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
+                    scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                     DispatchQueue.global(qos: .userInitiated).async {
-                        viewController.synthesisToSpeaker(response.value?.text ?? "")
+                        scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
                     }
 
-                    viewController.scene?.rasaData = response.value
+                    scene.rasaData = response.value
 
                 case .failure(let error):
+                    #if DEBUG
                     debugPrint("Failure: \(error)")
+                    #endif
             }
         }
     }
@@ -249,28 +288,33 @@ class RequestTakeoffState: GKState {
 }
 
 class TakeoffState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter takeoff state")
+        #endif
 
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
-
-        if viewController.scene?.rasaData?.runway == "28 RIGHT" {
-            viewController.scene?.plane.node.run((viewController.scene?.actions.takeoff28R)!) {
-                viewController.planeQtyLabel.finished += 1
-                stateMachine.enter(GetSenderIDState.self)
-            }
-
-        } else if viewController.scene?.rasaData?.runway == "10 LEFT" {
-            viewController.scene?.plane.node.run((viewController.scene?.actions.takeoff10L)!) {
-                viewController.planeQtyLabel.finished += 1
-                stateMachine.enter(GetSenderIDState.self)
-            }
+        switch scene.rasaData?.runway {
+            case "28 RIGHT":
+                scene.plane.node.run(scene.actions.takeoff28R) { [self] in
+                    scene.sceneDelegate?.finishPlanePlusOne()
+                    stateMachine?.enter(GetSenderIDState.self)
+                }
+            case "10 LEFT":
+                scene.plane.node.run(scene.actions.takeoff10L) { [self] in
+                    scene.sceneDelegate?.finishPlanePlusOne()
+                    stateMachine?.enter(GetSenderIDState.self)
+                }
+            default:
+                print(scene.rasaData?.runway ?? "")
         }
     }
 
@@ -280,41 +324,48 @@ class TakeoffState: GKState {
 }
 
 class RequestLandingState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter request landing state")
+        #endif
 
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
+        /// Rasa request landing
+        let parameters = RasaRequest(message: "landing", sender: scene.senderID)
 
-        let viewController = stateMachine.viewController
-
-        /// Rasa departure
-        let parameters = RasaRequest(message: "landing", sender: viewController.senderID)
-
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
             switch response.result {
                 case .success(let JSON):
+                    #if DEBUG
                     debugPrint("Response: \(JSON)")
+                    #endif
 
-                    viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
+                    scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                     DispatchQueue.global(qos: .userInitiated).async {
-                        viewController.synthesisToSpeaker(response.value?.text ?? "")
+                        scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
                     }
 
-                    viewController.atisTextView.update(action: response.value?.action ?? "", runway: response.value?.runway ?? "", degree: response.value?.degree ?? "", knot: response.value?.knot ?? "", information: response.value?.information ?? "")
+                    scene.sceneDelegate?.atisUpdate(data: response.value!)
 
-                    viewController.scene?.rasaData = response.value
+                    scene.rasaData = response.value
 
                 case .failure(let error):
+                    #if DEBUG
                     debugPrint("Failure: \(error)")
+                    #endif
             }
         }
 
-        viewController.scene?.plane.node.position = (viewController.scene?.actions.getSceneCGPoint(spawnPonit: .Arrival28R))!
+        scene.plane.node.position = scene.actions.getSceneCGPoint(spawnPonit: .Arrival28R)
     }
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
@@ -323,19 +374,22 @@ class RequestLandingState: GKState {
 }
 
 class LandingState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter landing state")
+        #endif
 
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
-
-        viewController.scene?.plane.node.run((viewController.scene?.actions.landing28RExitB3)!) {
-            stateMachine.enter(RequestTaxiState.self)
+        scene.plane.node.run(scene.actions.landing28RExitB3) {
+            self.stateMachine?.enter(RequestTaxiState.self)
         }
     }
 
@@ -345,52 +399,57 @@ class LandingState: GKState {
 }
 
 class RequestTaxiState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter request taxi state")
-
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
+        #endif
 
         /// Rasa sends "Exit right on Bravo 3"
-        var parameters = RasaRequest(message: "\(viewController.scene?.rasaData?.callsign ?? "") exit right on Bravo 3", sender: viewController.senderID)
+        var parameters = RasaRequest(message: "\(scene.rasaData?.callsign ?? "") exit right on Bravo 3", sender: scene.senderID)
 
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
             switch response.result {
                 case .success(let JSON):
+                    #if DEBUG
                     debugPrint("Response: \(JSON)")
-
-//                    viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
-//
-//                    DispatchQueue.global(qos: .userInitiated).async {
-//                        viewController.synthesisToSpeaker(response.value?.text ?? "")
-//                    }
+                    #endif
 
                     /// Rasa request taxi
-                    parameters = RasaRequest(message: "ready taxi", sender: viewController.senderID)
+                    parameters = RasaRequest(message: "ready taxi", sender: scene.senderID)
 
                     AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
                         switch response.result {
                             case .success(let JSON):
+                                #if DEBUG
                                 debugPrint("Response: \(JSON)")
+                                #endif
 
-                                viewController.speechLogTextView.addColoredSpeech(speaker: response.value?.callsign ?? "", input: response.value?.text ?? "", color: .yellow)
+                                scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                                 DispatchQueue.global(qos: .userInitiated).async {
-                                    viewController.synthesisToSpeaker(response.value?.text ?? "")
+                                    scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
                                 }
 
                             case .failure(let error):
+                                #if DEBUG
                                 debugPrint("Failure: \(error)")
+                                #endif
                         }
                     }
 
                 case .failure(let error):
+                    #if DEBUG
                     debugPrint("Failure: \(error)")
+                    #endif
             }
         }
     }
@@ -401,20 +460,23 @@ class RequestTaxiState: GKState {
 }
 
 class TaxiState2: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
 
+        #if DEBUG
         debugPrint("Enter taxi state 2")
+        #endif
 
-        guard let stateMachine = stateMachine as? GameStateMachine else {
-            return
-        }
-
-        let viewController = stateMachine.viewController
-
-        viewController.scene?.plane.node.run((viewController.scene?.actions.b3ToTerminal)!) {
-            viewController.planeQtyLabel.finished += 1
-            stateMachine.enter(GetSenderIDState.self)
+        scene.plane.node.run(scene.actions.b3ToTerminal) { [self] in
+            scene.sceneDelegate?.finishPlanePlusOne()
+            stateMachine?.enter(GetSenderIDState.self)
         }
     }
 

@@ -11,7 +11,6 @@
  */
 
 import SpriteKit
-import UIKit
 
 /// X, Y from Adobe AI
 enum SpawnPoint: CGPoint {

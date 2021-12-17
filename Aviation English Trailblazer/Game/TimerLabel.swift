@@ -8,15 +8,13 @@
 import UIKit.UILabel
 
 class TimerLabel: UILabel {
-    // MARK: Properties
-
-    private var seconds: Int = 0 // Hold a starting value of seconds.
+    // MARK: - Properties
+    private var seconds: Int = 0
     private var timer = Timer()
 
     private var isTimerRunning: Bool = false
 
     // MARK: - Initialization
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         text = timeString(time: TimeInterval(seconds))
@@ -26,23 +24,8 @@ class TimerLabel: UILabel {
         super.init(coder: coder)
     }
 
-//    init(seconds: Int) {
-//        let frame = CGRect(x: 0, y: 0, width: 250, height: 100)
-//        self.seconds = seconds
-//        super.init(frame: frame)
-//        backgroundColor = .clear
-//        font = UIFont(name: "DSEG7Classic-Bold", size: 60)
-//        textColor = .white
-//        textAlignment = .center
-//        text = timeString(time: TimeInterval(seconds))
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-
-    // MARK: Method
-    /// Starts timer
+    // MARK: - Funtions
+    /// Start timer
     func runTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
@@ -57,8 +40,8 @@ class TimerLabel: UILabel {
             isTimerRunning = false
             print("Time's up")
         } else {
-            seconds -= 1 // Counts down the seconds.
-            text = timeString(time: TimeInterval(seconds)) // Updates the label
+            seconds -= 1 // Count down the seconds.
+            text = timeString(time: TimeInterval(seconds)) // Update the text
         }
     }
 

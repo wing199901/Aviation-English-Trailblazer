@@ -16,52 +16,43 @@ protocol GameViewControllerNavigation: AnyObject {
 }
 
 class GameViewController: UIViewController {
+    // MARK: - Outlets
     @IBOutlet private var skView: SKView!
     @IBOutlet private var exitButton: UIButton!
     @IBOutlet private var timerLabel: TimerLabel!
-    @IBOutlet var planeQtyLabel: PlaneQtyLabel!
-    @IBOutlet var atisTextView: ATISTextView!
+    @IBOutlet private var planeQtyLabel: PlaneQtyLabel!
+    @IBOutlet private var atisTextView: ATISTextView!
     @IBOutlet private var speechRecognizeTextView: UITextView!
-    @IBOutlet var speechLogTextView: SpeechLogTextView!
+    @IBOutlet private var speechLogTextView: SpeechLogTextView!
 
+    // MARK: - Properties
     weak var navigationDelegate: GameViewControllerNavigation?
 
     private var viewModel: LevelDetailViewModelRepresentable?
 
-    var scene: GameScene?
+    private var scene: GameScene?
 
     // Azure
-    var sub: String!
-    var region: String!
+    private var sub: String!
+    private var region: String!
 
     // Speech to text
-    var reco: SPXSpeechRecognizer?
-    var inputStack = Stack()
-    var isWordConfirmed: Bool = true
+    private var reco: SPXSpeechRecognizer?
+    private var inputStack = Stack()
+    private var isWordConfirmed: Bool = true
 
     // Text to speech
-    var synthesizer: SPXSpeechSynthesizer?
-    var voice: String = "en-US-GuyNeural"
-    var isSynthesizerSpeaking: Bool = false
+    private var synthesizer: SPXSpeechSynthesizer?
+    private var voice: String = "en-US-GuyNeural"
+    private var isSynthesizerSpeaking: Bool = false
 
-    // Rasa
-
-    var scenarioID: String = "001000" // 001100
-
-    var senderID: String = ""
-
-    var senderIDArr = [String]()
-
+    // MARK: - Initialization
     init(viewModel: LevelDetailViewModelRepresentable) {
         defer {
             self.viewModel = viewModel
         }
 
-        // self.scene = GameScene(size: .zero, viewModel: viewModel)
-
         super.init(nibName: GameViewController.name, bundle: nil)
-
-        scenarioID = scenarioID.replacingOccurrences(of: "1", with: String(viewModel.id))
     }
 
     @available(*, unavailable)
@@ -69,14 +60,29 @@ class GameViewController: UIViewController {
         super.init(coder: coder)
     }
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupSpriteKitView()
 
-        /// Set timer to 10 minutes
-        timerLabel.resetTimer(seconds: 600)
+        setupTimerLabel()
+
+        /// Start timer
         timerLabel.runTimer()
+
+        /// Set total plane number for planeQtyLabel
+        planeQtyLabel.setTotal(total: viewModel!.planeQty)
+
+        setupATISLabel()
+
+        setupSpeechRecognizeTextView()
+
+        setupSpeechLogTextView()
+
+        /// Setup Microsoft Cognitive Services Speech SDK
+        sub = "089b98e458c7445faa685d919a1c9ca8"
+        region = "eastasia"
 
         /// Game over by time out
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
@@ -84,37 +90,101 @@ class GameViewController: UIViewController {
                 timer.invalidate()
                 /// Stop text to speech
                 stopSynthesis()
-                navigationDelegate?.didPressExit(senderIDArr: senderIDArr)
+                /// Stop timer
+                timerLabel.pauseTimer()
+                navigationDelegate?.didPressExit(senderIDArr: scene!.senderIDArr)
             }
         }
 
-        /// Set total plane number for planeQtyLabel
-        planeQtyLabel.setTotal(total: viewModel!.planeQty)
-
-        /// Game over by finish scene
+        /// Game over by finish level
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
-            if planeQtyLabel.finished == planeQtyLabel.total {
+            if planeQtyLabel.getFinishQty() == planeQtyLabel.getTotalQty() {
                 timer.invalidate()
                 /// Stop text to speech
                 stopSynthesis()
-                navigationDelegate?.didPressExit(senderIDArr: senderIDArr)
+                /// Stop timer
+                timerLabel.pauseTimer()
+                navigationDelegate?.didPressExit(senderIDArr: scene!.senderIDArr)
             }
         }
+    }
 
-        atisTextView.layer.contents = UIImage(named: "ATIS Border")?.cgImage
-        /// Init ATIS
-        atisTextView.update(action: "", runway: "", degree: "", knot: "", information: "")
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Release any cached data, images, etc that aren't in use.
+    }
 
-        setupSpeechRecognizeTextView()
+    /// Specifies whether the view controller prefers the status bar to be hidden or shown.
+    override var prefersStatusBarHidden: Bool {
+        true
+    }
 
-        setupSpeechLogTextView()
+    /// The key commands that trigger actions on this responder.
+    override var keyCommands: [UIKeyCommand]? {
+        [
+            UIKeyCommand(title: "Release", action: #selector(PTTRelease), input: "a"),
+            UIKeyCommand(title: "Push", action: #selector(PTTPush), input: "b"),
+        ]
+    }
 
-        // Setup Microsoft Cognitive Services Speech SDK
+    // MARK: - Funtions
+    /// Push To Talk Pushed.
+    @objc func PTTPush() {
+        print("Pushed")
 
-        sub = "089b98e458c7445faa685d919a1c9ca8"
-        region = "eastasia"
+        recognizeFromMic()
+    }
+
+    /// Push To Talk Released.
+    @objc func PTTRelease() {
+        print("Released")
+
+        stopRecognizeFromMic()
+
+        // speechRecognizeTextView.text = "ALPHA SIERRA ROMEO 556 taxi via Hotel holding point of Bravo 1 expect runway 28 Right western departure"
+
+        speechLogTextView.addColoredSpeech(speaker: "ATC", input: speechRecognizeTextView.text, color: .white)
+
+        let parameters = RasaRequest(message: speechRecognizeTextView.text, sender: scene!.senderID)
+
+        /// Empty text ready for next speech
+        speechRecognizeTextView.text = ""
+        inputStack.popAll()
+
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
+            switch response.result {
+                case .success(let JSON):
+                    #if DEBUG
+                        debugPrint("Response: \(JSON)")
+                    #endif
+
+                    /// Add text to log view
+                    speechLogTextView.addColoredSpeech(speaker: (response.value?.callsign)!, input: response.value!.text, color: .yellow)
+
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        synthesisToSpeaker(response.value?.text ?? "")
+                    }
+
+                    if (response.value?.havepermission)! {
+                        scene?.stateMachine?.enter(TaxiState.self)
+                        scene?.stateMachine?.enter(TakeoffState.self)
+                        scene?.stateMachine?.enter(LandingState.self)
+                        scene?.stateMachine?.enter(TaxiState2.self)
+                    }
+
+                case .failure(let error):
+                    #if DEBUG
+                        debugPrint("Failure: \(error)")
+                    #endif
+            }
+        }
+    }
+
+    func recognizeFromMic() {
+        print("Listening...")
 
         var speechConfig: SPXSpeechConfiguration?
+
         do {
             try speechConfig = SPXSpeechConfiguration(subscription: sub, region: region)
             speechConfig?.endpointId = "8663d17c-cbe1-46a3-b72c-3c6d216afdcc"
@@ -180,95 +250,11 @@ class GameViewController: UIViewController {
 
             stopRecognizeFromMic()
         }
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        true
-    }
-
-    /// The key commands that trigger actions on this responder.
-    override var keyCommands: [UIKeyCommand]? {
-        [
-            UIKeyCommand(title: "Release", action: #selector(PTTRelease), input: "a"),
-            UIKeyCommand(title: "Push", action: #selector(PTTPush), input: "b"),
-        ]
-    }
-
-    // MARK: - Method
-
-    /// Push To Talk Released.
-    @objc func PTTRelease() {
-        print("Released")
-
-        stopRecognizeFromMic()
-
-//        speechRecognizeTextView.text = "ALPHA SIERRA ROMEO 556 taxi via Hotel holding point of Bravo 1 expect runway 28 Right western departure"
-
-        speechLogTextView.addColoredSpeech(speaker: "ATC", input: speechRecognizeTextView.text, color: .white)
-
-        let parameters = RasaRequest(message: speechRecognizeTextView.text, sender: senderID)
-
-        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
-            switch response.result {
-                case .success(let JSON):
-                    debugPrint("Response: \(JSON)")
-
-                    /// Add text to log view
-                    speechLogTextView.addColoredSpeech(speaker: (response.value?.callsign)!, input: response.value!.text, color: .yellow)
-
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        synthesisToSpeaker(response.value?.text ?? "")
-                    }
-
-                    if (response.value?.havepermission)! {
-                        scene?.stateMachine?.enter(TaxiState.self)
-                        scene?.stateMachine?.enter(TakeoffState.self)
-                        scene?.stateMachine?.enter(LandingState.self)
-                        scene?.stateMachine?.enter(TaxiState2.self)
-                    }
-
-                case .failure(let error):
-                    debugPrint("Failure: \(error)")
-            }
-        }
-
-        /// Empty text ready for next speech
-        speechRecognizeTextView.text = ""
-        inputStack.popAll()
-    }
-
-    /// Push To Talk Pushed.
-    @objc func PTTPush() {
-        print("Pushed")
-//        if skView.scene!.name == "Base" || skView.scene!.name!.contains("Level") {
-//        if SpeechToText.shared.state == .idle {
-//            SpeechToText.shared.recognizeFromMic()
-//        }
-//        }
-
-        // Empty text for next speech
-        speechRecognizeTextView.text = ""
-        inputStack.popAll()
-
-        recognizeFromMic()
-    }
-
-    func recognizeFromMic() {
-        DispatchQueue.global(qos: .userInitiated).async { [self] in
-            print("Listening...")
-
-            // Start recording and append recording buffer to speech recognizer
-
-            do {
-                try reco!.startContinuousRecognition()
-            } catch {
-                print("error \(error) happened")
-            }
+        do {
+            try reco?.startContinuousRecognition()
+        } catch {
+            print("error \(error) happened")
         }
     }
 
@@ -277,7 +263,7 @@ class GameViewController: UIViewController {
             print("Stop Recognizing...")
 
             do {
-                try reco!.stopContinuousRecognition()
+                try reco?.stopContinuousRecognition()
             } catch {
                 print("error \(error) happened")
             }
@@ -288,6 +274,92 @@ class GameViewController: UIViewController {
         DispatchQueue.main.async { [self] in
             speechRecognizeTextView.text = inputStack.printAll()
         }
+    }
+
+    func stopSynthesis() {
+        do {
+            try synthesizer?.stopSpeaking()
+        } catch {
+            print("error \(error) happened")
+        }
+    }
+
+    private func setupSpriteKitView() {
+        guard let scene = GameScene(fileNamed: "GameScene") else { return }
+        self.scene = scene
+
+        scene.size = skView.bounds.size
+        scene.scaleMode = .aspectFill
+
+        scene.sceneDelegate = self
+        scene.setViewModel(viewModel: viewModel)
+
+        #if DEBUG
+            skView.showsFPS = true
+            skView.showsNodeCount = true
+            skView.showsDrawCount = true
+        #endif
+
+        // SpriteKit applies additional optimizations to improve rendering performance.
+        skView.ignoresSiblingOrder = true
+
+        skView.presentScene(scene)
+    }
+
+    private func setupTimerLabel() {
+        /// Set timer to 10 minutes
+        timerLabel.resetTimer(seconds: 600)
+    }
+
+    private func setupATISLabel() {
+        atisTextView.layer.contents = UIImage(named: "ATIS Border")?.cgImage
+
+        /// Init ATIS text
+        atisTextView.update(action: "", runway: "", degree: "", knot: "", information: "")
+    }
+
+    private func setupSpeechRecognizeTextView() {
+        speechRecognizeTextView.layer.contents = UIImage(named: "Speech Recognize Border")?.cgImage
+        speechRecognizeTextView.textContainer.maximumNumberOfLines = 1
+        speechRecognizeTextView.textContainer.lineBreakMode = .byTruncatingHead
+    }
+
+    private func setupSpeechLogTextView() {
+        speechLogTextView.layer.contents = UIImage(named: "Speech Log Border")?.cgImage
+    }
+
+    @IBAction func exitButtonAction(_ sender: UIButton) {
+        /// Stop text to speech
+        stopSynthesis()
+        /// Stop timer
+        timerLabel.pauseTimer()
+        navigationDelegate?.didPressExit(senderIDArr: scene!.senderIDArr)
+    }
+}
+
+extension GameViewController: GameSceneDelegate {
+    func gameSceneDidEnd(_ gameScene: GameScene) {
+//        guard let viewModel = viewModel else { return }
+//        navigationDelegate?.gameViewController(self, didEndGameWith: viewModel.score.value)
+    }
+
+    /// Add Rasa returned text to speechLogTextView
+    func addRasaSpeech(speaker: String, _ text: String) {
+        speechLogTextView.addColoredSpeech(speaker: speaker, input: text, color: .yellow)
+    }
+
+    /// Update ATIS by passed model
+    func atisUpdate(data: RasaResponse) {
+        atisTextView.update(action: data.action ?? "", runway: data.runway ?? "", degree: data.degree ?? "", knot: data.knot ?? "", information: data.information ?? "")
+    }
+
+    /// Set plane position to some spawn point
+    func setPlanePosition(spawnPoint: SpawnPoint) {
+        scene?.plane.node.position = scene?.actions.getSceneCGPoint(spawnPonit: spawnPoint) ?? CGPoint(x: 0, y: 0)
+    }
+
+    func finishPlanePlusOne() {
+        planeQtyLabel.finishQtyPlusOne()
     }
 
     func synthesisToSpeaker(_ text: String) {
@@ -346,108 +418,17 @@ class GameViewController: UIViewController {
             self.isSynthesizerSpeaking = true
         }
 
-        // Start speaking
         do {
             /// Make a 0.5s pause between two speech
             while isSynthesizerSpeaking {
                 sleep(UInt32(0.5))
             }
-            try synthesizer!.speakText(text.replacingOccurrences(matchingPattern: "\\d", replacementProvider: { numbers[$0] }))
+            try synthesizer?.speakText(text.replacingOccurrences(matchingPattern: "\\d", replacementProvider: { numbers[$0] }))
 
-//            try synthesizer!.speakText(text)
+            // try synthesizer!.speakText(text)
 
         } catch {
             print("error \(error) happened")
-        }
-    }
-
-    func stopSynthesis() {
-        do {
-            try synthesizer!.stopSpeaking()
-        } catch {
-            print("error \(error) happened")
-        }
-    }
-
-    private func setupSpriteKitView() {
-        guard let scene = GameScene(fileNamed: "GameScene") else { return }
-
-        self.scene = scene
-
-        scene.size = skView.bounds.size
-        scene.scaleMode = .aspectFill
-
-        scene.sceneDelegate = self
-        scene.setViewModel(viewModel: viewModel)
-        scene.viewController = self
-
-        #if DEBUG
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-            skView.showsDrawCount = true
-        #endif
-
-        skView.presentScene(scene)
-
-        // SpriteKit applies additional optimizations to improve rendering performance.
-        skView.ignoresSiblingOrder = true
-    }
-
-    private func setupSpeechRecognizeTextView() {
-        speechRecognizeTextView.layer.contents = UIImage(named: "Speech Recognize Border")?.cgImage
-        speechRecognizeTextView.textContainer.maximumNumberOfLines = 1
-        speechRecognizeTextView.textContainer.lineBreakMode = .byTruncatingHead
-    }
-
-    private func setupSpeechLogTextView() {
-        speechLogTextView.layer.contents = UIImage(named: "Speech Log Border")?.cgImage
-    }
-
-    @IBAction func exitButtonAction(_ sender: UIButton) {
-        navigationDelegate?.didPressExit(senderIDArr: senderIDArr)
-    }
-}
-
-extension GameViewController: GameSceneDelegate {
-    func gameSceneDidEnd(_ gameScene: GameScene) {
-//        guard let viewModel = viewModel else { return }
-//        animateScore(with: .disappearing)
-//        navigationDelegate?.gameViewController(self, didEndGameWith: viewModel.score.value)
-    }
-}
-
-let natoAlphabet = ["A": "Alpha", "B": "Bravo", "C": "Charlie", "D": "Delta", "E": "Echo", "F": "Foxtrot", "G": "Golf", "H": "Hotel", "I": "India", "J": "Juliett", "K": "Kilo", "L": "Lima", "M": "Mike", "N": "November", "O": "Oscar", "P": "Papa", "Q": "Quebec", "R": "Romeo", "S": "Sierra", "T": "Tango", "U": "Uniform", "V": "Victor", "W": "Whiskey", "X": "X-ray", "Y": "Yankee", "Z": "Zulu", "0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9"]
-
-let numbers = ["0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "niner"]
-
-extension String {
-    func nato(str: String) -> String {
-        var newString = ""
-        for char in str {
-            char == " " || char.isNumber ? newString.append(char) : newString.append(natoAlphabet[String(char).uppercased()]! + " ")
-        }
-        return newString
-    }
-
-    func replacingOccurrences(matchingPattern pattern: String) -> String {
-        let expression = try! NSRegularExpression(pattern: pattern, options: [])
-        let matches = expression.matches(in: self, options: [], range: NSRange(startIndex ..< endIndex, in: self))
-        return matches.reversed().reduce(into: self) { current, result in
-            let range = Range(result.range, in: current)!
-            let token = String(current[range])
-            let replacement = nato(str: token)
-            current.replaceSubrange(range, with: replacement)
-        }
-    }
-
-    func replacingOccurrences(matchingPattern pattern: String, replacementProvider: (String) -> String?) -> String {
-        let expression = try! NSRegularExpression(pattern: pattern, options: [])
-        let matches = expression.matches(in: self, options: [], range: NSRange(startIndex ..< endIndex, in: self))
-        return matches.reversed().reduce(into: self) { current, result in
-            let range = Range(result.range, in: current)!
-            let token = String(current[range])
-            guard let replacement = replacementProvider(token) else { return }
-            current.replaceSubrange(range, with: " " + replacement)
         }
     }
 }
