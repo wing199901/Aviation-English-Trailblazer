@@ -15,7 +15,7 @@ import SpriteKit
 
 enum SpriteType: String {
     case player = "plane"
-    case npc
+    case npc = "npc plane"
 }
 
 extension SpriteType {

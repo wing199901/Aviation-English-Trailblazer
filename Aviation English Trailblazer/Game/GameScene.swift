@@ -11,16 +11,19 @@ import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
 //    func gameSceneDidEnd(_ gameScene: GameScene)
-    func addRasaSpeech(speaker: String, _ text: String)
+    func showRasaSpeech(speaker: String, _ text: String)
     func atisUpdate(data: RasaResponse)
     func setPlanePosition(spawnPoint: SpawnPoint)
     func finishPlanePlusOne()
     func synthesisToSpeaker(_ text: String)
+    func startActivityIndicatorView()
+    func stopActivityIndicatorView()
 }
 
 class GameScene: SKScene {
     // MARK: - Sprites
-    var plane: Player!
+    var plane: Plane!
+    var npc: Plane!
     private var map: SKNode!
     var actions: Path!
 
@@ -56,7 +59,8 @@ class GameScene: SKScene {
                                                RequestLandingState(scene: self),
                                                LandingState(scene: self),
                                                RequestTaxiState(scene: self),
-                                               TaxiState2(scene: self)]
+                                               TaxiState2(scene: self),
+                                               RequestCrossState(scene: self)]
         )
 
         stateMachine?.enter(GetSenderIDState.self)
@@ -74,16 +78,25 @@ class GameScene: SKScene {
         self.viewModel = viewModel
     }
 
+    /// Setup all sprite position and rotation
     func setupSprite() {
         map = childNode(withName: "Map") as! SKSpriteNode
 
         actions = Path(airport: map, screenFrame: frame)
 
-        plane = Player()
+        plane = Plane(type: .player)
         plane.node.position = actions.getSceneCGPoint(spawnPonit: .Terminal)
         plane.addCallSign("")
 
+        npc = Plane(type: .npc)
+        npc.node.position = actions.getSceneCGPoint(spawnPonit: .Eastern)
+        npc.node.zRotation = CGFloat(80).degreesToRadians()
+
+        npc.addCallSign("")
+        npc.node.isHidden = true
+
         addChild(plane.node)
+        addChild(npc.node)
     }
 }
 
@@ -102,10 +115,13 @@ class GetSenderIDState: GKState {
         debugPrint("Enter get sender id state")
         #endif
 
-        /// Even plane equal a scenrio id
+        /// Each plane equal a scenrio id.
+        /// Fisrt plane of level one = 001100
+        /// 001 = level 1
+        /// 100 = first plane
         scene.scenarioID = String(format: "%04d", (Int(scene.scenarioID.prefix(4)) ?? 0) + 1) + "00"
 
-        /// Rasa get sender id
+        /// Rasa get sender id by the scenario id
         var parameters = RasaRequest(message: "getid", sender: scene.scenarioID)
 
         AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
@@ -116,10 +132,11 @@ class GetSenderIDState: GKState {
                     #endif
 
                     scene.senderID = response.value?.text ?? ""
+                    /// Record all sender id for end game log
                     scene.senderIDArr.append(response.value?.text ?? "")
 
-                    // Rasa send empty string to get json with details
-                    parameters = RasaRequest(message: "test", sender: scene.senderID)
+                    /// PSOT "information text" to RASA to get json with details
+                    parameters = RasaRequest(message: "information text", sender: scene.senderID)
 
                     AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { response in
                         switch response.result {
@@ -128,9 +145,17 @@ class GetSenderIDState: GKState {
                                 debugPrint("Response: \(JSON)")
                                 #endif
 
-                                /// Add call sign to plane
-                                scene.plane.updateCallSignText(response.value?.callsign ?? "")
+                                /// Display call sign under plane sprite
+                                scene.plane.updateCallSignText(response.value?.callsign_short ?? "")
 
+                                /// crossable decide npc hidden
+                                if response.value?.crossable ?? false {
+                                    scene.npc.node.isHidden = false
+                                    /// taxi from J1 to 22L
+                                    scene.npc.node.run(scene.actions.j1To22LStopBars)
+                                }
+
+                                /// Decide what state the plane gonna go
                                 if response.value!.action!.contains("departure") {
                                     stateMachine?.enter(DepartureState.self)
                                 } else {
@@ -150,6 +175,11 @@ class GetSenderIDState: GKState {
                     #endif
             }
         }
+    }
+
+    override func willExit(to nextState: GKState) {
+        /// Hide indicator view after get responce from server
+        scene.sceneDelegate?.stopActivityIndicatorView()
     }
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
@@ -182,17 +212,31 @@ class DepartureState: GKState {
                     debugPrint("Response: \(JSON)")
                     #endif
 
-                    scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
+                    /// Show the line from Rasa
+                    scene.sceneDelegate?.showRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                     DispatchQueue.global(qos: .userInitiated).async {
+                        /// Speak the line from Rasa
                         scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
                     }
 
+                    /// Update ATIS information
                     scene.sceneDelegate?.atisUpdate(data: response.value!)
 
+                    /// Store Rasa Responce for next state use
                     scene.rasaData = response.value
 
-                    scene.sceneDelegate?.setPlanePosition(spawnPoint: .Terminal)
+                    /// Set postion and heading when plane spawn
+                    switch response.value?.spawn {
+                        case "TERMINAL":
+                            scene.sceneDelegate?.setPlanePosition(spawnPoint: .Terminal)
+                        // scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
+                        case "APRON":
+                            scene.sceneDelegate?.setPlanePosition(spawnPoint: .Eastern)
+                        // scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
+                        default:
+                            scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
+                    }
 
                 case .failure(let error):
                     #if DEBUG
@@ -228,16 +272,69 @@ class TaxiState: GKState {
                     self.stateMachine?.enter(RequestTakeoffState.self)
                 }
             case "10 LEFT":
-                scene.plane.node.run(scene.actions.terminalToB5StopBars) {
-                    self.stateMachine?.enter(RequestTakeoffState.self)
+                if (scene.rasaData?.crossable)! {
+                    scene.plane.node.run(scene.actions.j1To04RStopBars) {
+                        self.stateMachine?.enter(RequestCrossState.self)
+                    }
+                } else {
+                    scene.plane.node.run(scene.actions.terminalToB5StopBars) {
+                        self.stateMachine?.enter(RequestTakeoffState.self)
+                    }
                 }
+
             default:
                 print(scene.rasaData?.runway ?? "")
         }
     }
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        stateClass == RequestTakeoffState.self
+        stateClass == RequestCrossState.self || stateClass == RequestTakeoffState.self
+    }
+}
+
+class RequestCrossState: GKState {
+    unowned let scene: GameScene
+
+    init(scene: GameScene) {
+        self.scene = scene
+        super.init()
+    }
+
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
+
+        #if DEBUG
+        debugPrint("Enter request cross state")
+        #endif
+
+        /// Rasa request cross
+        let parameters = RasaRequest(message: "ready cross", sender: scene.senderID)
+
+        AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
+            switch response.result {
+                case .success(let JSON):
+                    #if DEBUG
+                    debugPrint("Response: \(JSON)")
+                    #endif
+
+                    scene.sceneDelegate?.showRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
+
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
+                    }
+
+                    scene.rasaData = response.value
+
+                case .failure(let error):
+                    #if DEBUG
+                    debugPrint("Failure: \(error)")
+                    #endif
+            }
+        }
+    }
+
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        stateClass == TaxiState2.self
     }
 }
 
@@ -266,7 +363,7 @@ class RequestTakeoffState: GKState {
                     debugPrint("Response: \(JSON)")
                     #endif
 
-                    scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
+                    scene.sceneDelegate?.showRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                     DispatchQueue.global(qos: .userInitiated).async {
                         scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
@@ -348,7 +445,7 @@ class RequestLandingState: GKState {
                     debugPrint("Response: \(JSON)")
                     #endif
 
-                    scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
+                    scene.sceneDelegate?.showRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                     DispatchQueue.global(qos: .userInitiated).async {
                         scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
@@ -433,7 +530,7 @@ class RequestTaxiState: GKState {
                                 debugPrint("Response: \(JSON)")
                                 #endif
 
-                                scene.sceneDelegate?.addRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
+                                scene.sceneDelegate?.showRasaSpeech(speaker: response.value?.callsign ?? "", response.value?.text ?? "")
 
                                 DispatchQueue.global(qos: .userInitiated).async {
                                     scene.sceneDelegate?.synthesisToSpeaker(response.value?.text ?? "")
@@ -474,13 +571,29 @@ class TaxiState2: GKState {
         debugPrint("Enter taxi state 2")
         #endif
 
-        scene.plane.node.run(scene.actions.b3ToTerminal) { [self] in
-            scene.sceneDelegate?.finishPlanePlusOne()
-            stateMachine?.enter(GetSenderIDState.self)
+        if (scene.rasaData?.crossable)! {
+            scene.plane.node.run(scene.actions.taxiway04RStopBarsToB5StopBars) { [self] in
+                stateMachine?.enter(RequestTakeoffState.self)
+            }
+        } else {
+            switch scene.rasaData?.destination {
+                case "TERMINAL":
+                    scene.plane.node.run(scene.actions.b3ToTerminal) { [self] in
+                        scene.sceneDelegate?.finishPlanePlusOne()
+                        stateMachine?.enter(GetSenderIDState.self)
+                    }
+                case "APRON":
+                    scene.plane.node.run(scene.actions.b3ToJ1) { [self] in
+                        scene.sceneDelegate?.finishPlanePlusOne()
+                        stateMachine?.enter(GetSenderIDState.self)
+                    }
+                default:
+                    break
+            }
         }
     }
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        stateClass == GetSenderIDState.self
+        stateClass == RequestTakeoffState.self || stateClass == GetSenderIDState.self
     }
 }

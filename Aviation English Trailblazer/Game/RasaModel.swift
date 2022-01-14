@@ -15,6 +15,7 @@ struct RasaResponse: Codable {
     let text: String
     let action: String?
     let callsign: String?
+    let callsign_short: String?
     let via_point: String?
     let holding_point: String?
     let runway: String?
@@ -22,6 +23,8 @@ struct RasaResponse: Codable {
     let knot: String?
     let degreesandknots: String?
     let information: String?
+    let spawn: String?
+    let destination: String?
     let havepermission: Bool?
     let crossable: Bool?
 }

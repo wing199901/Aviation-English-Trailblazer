@@ -13,11 +13,12 @@
             <connections>
                 <outlet property="backButton" destination="uGH-mZ-OKY" id="Iwu-eH-1XT"/>
                 <outlet property="resultTextView" destination="FE1-1W-Doa" id="XOJ-dO-kCd"/>
+                <outlet property="saveButton" destination="Pez-TR-T2N" id="OGZ-1E-SXv"/>
                 <outlet property="view" destination="iN0-l3-epB" id="KuF-i7-FJF"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="Game">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -31,13 +32,13 @@
                     </constraints>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FE1-1W-Doa">
-                    <rect key="frame" x="200" y="144" width="966" height="598"/>
+                    <rect key="frame" x="200" y="144" width="966" height="558"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uGH-mZ-OKY">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uGH-mZ-OKY" userLabel="Back Button">
                     <rect key="frame" x="505" y="872" width="356" height="82"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="uGH-mZ-OKY" secondAttribute="height" multiplier="100:23" id="TqJ-V5-m5W"/>
@@ -46,6 +47,14 @@
                     <state key="normal" image="Back To Menu Button"/>
                     <connections>
                         <action selector="exitButtonAction:" destination="-1" eventType="touchUpInside" id="jCE-mf-sNI"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pez-TR-T2N">
+                    <rect key="frame" x="541" y="732" width="284" height="60"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="Save Button"/>
+                    <connections>
+                        <action selector="saveButtonAction:" destination="-1" eventType="touchUpInside" id="MFD-C9-rll"/>
                     </connections>
                 </button>
             </subviews>
@@ -62,18 +71,22 @@
                 <constraint firstItem="FE1-1W-Doa" firstAttribute="leading" secondItem="Ceb-fB-Eaj" secondAttribute="leading" constant="40" id="OlW-4z-19F"/>
                 <constraint firstAttribute="trailing" secondItem="NxJ-gJ-yjH" secondAttribute="trailing" id="Vth-rr-Nko"/>
                 <constraint firstItem="uGH-mZ-OKY" firstAttribute="top" secondItem="Ceb-fB-Eaj" secondAttribute="bottom" constant="50" id="W3x-x3-p0J"/>
+                <constraint firstItem="FE1-1W-Doa" firstAttribute="bottom" secondItem="Ceb-fB-Eaj" secondAttribute="bottom" constant="-120" id="flI-GH-vc7"/>
+                <constraint firstItem="Pez-TR-T2N" firstAttribute="top" secondItem="FE1-1W-Doa" secondAttribute="bottom" constant="30" id="lcS-pB-3Z0"/>
                 <constraint firstItem="NxJ-gJ-yjH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pz6-hz-IID"/>
                 <constraint firstAttribute="bottom" secondItem="NxJ-gJ-yjH" secondAttribute="bottom" id="sZd-D0-UMz"/>
+                <constraint firstItem="Pez-TR-T2N" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ttN-iB-8k6"/>
                 <constraint firstItem="Ceb-fB-Eaj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="160" id="vsv-4w-Zw9"/>
-                <constraint firstItem="FE1-1W-Doa" firstAttribute="bottom" secondItem="Ceb-fB-Eaj" secondAttribute="bottom" constant="-80" id="zI1-tS-WTX"/>
+                <constraint firstItem="Pez-TR-T2N" firstAttribute="bottom" secondItem="Ceb-fB-Eaj" secondAttribute="bottom" constant="-30" id="zFB-Qq-RJ5"/>
             </constraints>
-            <point key="canvasLocation" x="-1459.5703125" y="346.875"/>
+            <point key="canvasLocation" x="-1459.5900439238651" y="346.875"/>
         </view>
     </objects>
     <resources>
         <image name="Back To Menu Button" width="809" height="186"/>
         <image name="Background" width="2739" height="2053"/>
         <image name="Dialogue Border" width="1568" height="1136"/>
+        <image name="Save Button" width="284" height="70"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -7,6 +7,7 @@
 
 import UIKit.UILabel
 
+/// A UILabel count down time
 class TimerLabel: UILabel {
     // MARK: - Properties
     private var seconds: Int = 0

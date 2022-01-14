@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-struct Player {
+struct Plane {
     // MARK: - Properties
 
     let node: SKSpriteNode
@@ -16,8 +16,8 @@ struct Player {
 
     // MARK: - Initialization
 
-    init() {
-        self.node = SpriteFactory.sprite(type: .player)
+    init(type: SpriteType) {
+        self.node = SpriteFactory.sprite(type: type)
         self.label = SKLabelNode(text: "")
     }
 
@@ -27,8 +27,8 @@ struct Player {
     func addCallSign(_ text: String) {
         label.text = text
         label.fontColor = .yellow
-        label.fontName = "MyriadPro-Regular"
-        label.fontSize = 14
+        label.fontName = "MyriadPro-SemiBold"
+        label.fontSize = 18
 
         label.position = CGPoint(x: -35, y: 0)
         label.zRotation = CGFloat(280).degreesToRadians()

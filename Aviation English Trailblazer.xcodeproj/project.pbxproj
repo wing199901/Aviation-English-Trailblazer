@@ -28,7 +28,7 @@
 		A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C767127573D38000F9AC4 /* RasaModel.swift */; };
 		A3A2268F272F971300A8D990 /* Font in Resources */ = {isa = PBXBuildFile; fileRef = A3A2268E272F971300A8D990 /* Font */; };
 		A3A22695272FDE9200A8D990 /* SpriteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22694272FDE9200A8D990 /* SpriteType.swift */; };
-		A3A22697272FDF5D00A8D990 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22696272FDF5D00A8D990 /* Player.swift */; };
+		A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A22696272FDF5D00A8D990 /* Plane.swift */; };
 		A3A226B42733FD8D00A8D990 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B32733FD8D00A8D990 /* Navigator.swift */; };
 		A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */; };
 		A3A226B92734113200A8D990 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A226B82734113200A8D990 /* Coordinator.swift */; };
@@ -56,7 +56,6 @@
 		A3DB4DB5275FCCB500CBBAAC /* GameOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */; };
 		A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */; };
 		A3EB0A6C27685F48007737BF /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB0A6B27685F48007737BF /* SpriteFactory.swift */; };
-		A3EB0A6E27687A1E007737BF /* NPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB0A6D27687A1E007737BF /* NPC.swift */; };
 		A3EB0A702768A593007737BF /* String+replacingOccurrences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */; };
 		DBB693D3162B6B43AEB1417A /* Pods_Aviation_English_Trailblazer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB2BD349F9AEB2312596146 /* Pods_Aviation_English_Trailblazer.framework */; };
 /* End PBXBuildFile section */
@@ -105,7 +104,7 @@
 		A39C767127573D38000F9AC4 /* RasaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RasaModel.swift; sourceTree = "<group>"; };
 		A3A2268E272F971300A8D990 /* Font */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Font; sourceTree = SOURCE_ROOT; };
 		A3A22694272FDE9200A8D990 /* SpriteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteType.swift; sourceTree = "<group>"; };
-		A3A22696272FDF5D00A8D990 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		A3A22696272FDF5D00A8D990 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		A3A226B32733FD8D00A8D990 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		A3A226B62733FE6200A8D990 /* NavigatorTransitionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatorTransitionType.swift; sourceTree = "<group>"; };
 		A3A226B82734113200A8D990 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -134,7 +133,6 @@
 		A3DB4DB1275FCCB400CBBAAC /* GameOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameOverViewController.xib; sourceTree = "<group>"; };
 		A3DB4DB2275FCCB400CBBAAC /* GameOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		A3EB0A6B27685F48007737BF /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
-		A3EB0A6D27687A1E007737BF /* NPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPC.swift; sourceTree = "<group>"; };
 		A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+replacingOccurrences.swift"; sourceTree = "<group>"; };
 		D6301D785B4C0972C69681BF /* Pods-Aviation English Trailblazer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aviation English Trailblazer.debug.xcconfig"; path = "Target Support Files/Pods-Aviation English Trailblazer/Pods-Aviation English Trailblazer.debug.xcconfig"; sourceTree = "<group>"; };
 		DFB2BD349F9AEB2312596146 /* Pods_Aviation_English_Trailblazer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Aviation_English_Trailblazer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,9 +259,8 @@
 			isa = PBXGroup;
 			children = (
 				A3A22694272FDE9200A8D990 /* SpriteType.swift */,
-				A3A22696272FDF5D00A8D990 /* Player.swift */,
+				A3A22696272FDF5D00A8D990 /* Plane.swift */,
 				A3EB0A6B27685F48007737BF /* SpriteFactory.swift */,
-				A3EB0A6D27687A1E007737BF /* NPC.swift */,
 			);
 			path = Sprite;
 			sourceTree = "<group>";
@@ -538,7 +535,7 @@
 				A3CE78C82734C9D2000A7747 /* LevelViewModel.swift in Sources */,
 				A3CD7E282738E6EF00CA45D9 /* GameViewModel.swift in Sources */,
 				A3A226C42734161600A8D990 /* MenuViewModel.swift in Sources */,
-				A3A22697272FDF5D00A8D990 /* Player.swift in Sources */,
+				A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */,
 				A3A226BB2734117100A8D990 /* AppCoordinator.swift in Sources */,
 				A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */,
 				A32CA9802747A5FF0050C150 /* Voice.swift in Sources */,
@@ -550,7 +547,6 @@
 				A3EB0A6C27685F48007737BF /* SpriteFactory.swift in Sources */,
 				A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */,
 				A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */,
-				A3EB0A6E27687A1E007737BF /* NPC.swift in Sources */,
 				A307D77A272BB2D7008C7E2A /* UIImage+addTextToImage.swift in Sources */,
 				A3DB4DB4275FCCB500CBBAAC /* GameOverCoordinator.swift in Sources */,
 				A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */,

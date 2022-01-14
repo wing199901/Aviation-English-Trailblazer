@@ -24,6 +24,7 @@ class GameViewController: UIViewController {
     @IBOutlet private var atisTextView: ATISTextView!
     @IBOutlet private var speechRecognizeTextView: UITextView!
     @IBOutlet private var speechLogTextView: SpeechLogTextView!
+    @IBOutlet private var activityIndicatorView: UIActivityIndicatorView!
 
     // MARK: - Properties
     weak var navigationDelegate: GameViewControllerNavigation?
@@ -32,7 +33,7 @@ class GameViewController: UIViewController {
 
     private var scene: GameScene?
 
-    // Azure
+    /// Azure subcription information
     private var sub: String!
     private var region: String!
 
@@ -87,6 +88,7 @@ class GameViewController: UIViewController {
         /// Game over by time out
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
             if !timerLabel.isRunning() {
+                print("Time out")
                 timer.invalidate()
                 /// Stop text to speech
                 stopSynthesis()
@@ -99,6 +101,7 @@ class GameViewController: UIViewController {
         /// Game over by finish level
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
             if planeQtyLabel.getFinishQty() == planeQtyLabel.getTotalQty() {
+                print("Level finished")
                 timer.invalidate()
                 /// Stop text to speech
                 stopSynthesis()
@@ -308,7 +311,7 @@ class GameViewController: UIViewController {
 
     private func setupTimerLabel() {
         /// Set timer to 10 minutes
-        timerLabel.resetTimer(seconds: 600)
+        timerLabel.resetTimer(seconds: 9000)
     }
 
     private func setupATISLabel() {
@@ -319,16 +322,23 @@ class GameViewController: UIViewController {
     }
 
     private func setupSpeechRecognizeTextView() {
-        speechRecognizeTextView.layer.contents = UIImage(named: "Speech Recognize Border")?.cgImage
         speechRecognizeTextView.textContainer.maximumNumberOfLines = 1
         speechRecognizeTextView.textContainer.lineBreakMode = .byTruncatingHead
+        /// Add padding to textView
+        speechRecognizeTextView.textContainerInset = UIEdgeInsets(top: 6, left: 15, bottom: 0, right: 25)
+        /// Add background to textView
+        speechRecognizeTextView.layer.contents = UIImage(named: "Speech Recognize Border")?.cgImage
     }
 
     private func setupSpeechLogTextView() {
+        /// Add padding to textView
+        speechLogTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 0, right: 5)
+        /// Add background to textView
         speechLogTextView.layer.contents = UIImage(named: "Speech Log Border")?.cgImage
     }
 
     @IBAction func exitButtonAction(_ sender: UIButton) {
+        print("Exit button pressed")
         /// Stop text to speech
         stopSynthesis()
         /// Stop timer
@@ -344,7 +354,7 @@ extension GameViewController: GameSceneDelegate {
     }
 
     /// Add Rasa returned text to speechLogTextView
-    func addRasaSpeech(speaker: String, _ text: String) {
+    func showRasaSpeech(speaker: String, _ text: String) {
         speechLogTextView.addColoredSpeech(speaker: speaker, input: text, color: .yellow)
     }
 
@@ -430,5 +440,13 @@ extension GameViewController: GameSceneDelegate {
         } catch {
             print("error \(error) happened")
         }
+    }
+
+    func startActivityIndicatorView() {
+        activityIndicatorView.startAnimating()
+    }
+
+    func stopActivityIndicatorView() {
+        activityIndicatorView.stopAnimating()
     }
 }

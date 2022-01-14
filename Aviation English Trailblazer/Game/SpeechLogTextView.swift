@@ -22,7 +22,6 @@ class SpeechLogTextView: UITextView {
 
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
-        self.textContainerInset = UIEdgeInsets(top: 30, left: 30, bottom: 0, right: 5)
     }
 
     @available(*, unavailable)
