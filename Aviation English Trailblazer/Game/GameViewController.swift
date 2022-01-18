@@ -202,6 +202,7 @@ class GameViewController: UIViewController {
 
         reco = try! SPXSpeechRecognizer(speechConfiguration: speechConfig!, audioConfiguration: SPXAudioConfiguration())
 
+        /// Connect callback
         reco!.addRecognizingEventHandler { [self] _, evt in
 
             print("RECOGNIZING: \(evt.result.text ?? "")")
@@ -295,7 +296,7 @@ class GameViewController: UIViewController {
         scene.scaleMode = .aspectFill
 
         scene.sceneDelegate = self
-        scene.setViewModel(viewModel: viewModel)
+        scene.setViewModel(viewModel)
 
         #if DEBUG
             skView.showsFPS = true

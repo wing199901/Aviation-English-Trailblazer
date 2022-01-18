@@ -51,16 +51,18 @@ class GameScene: SKScene {
 
         setupSprite()
 
-        stateMachine = GKStateMachine(states: [GetSenderIDState(scene: self),
-                                               DepartureState(scene: self),
-                                               TaxiState(scene: self),
-                                               RequestTakeoffState(scene: self),
-                                               TakeoffState(scene: self),
-                                               RequestLandingState(scene: self),
-                                               LandingState(scene: self),
-                                               RequestTaxiState(scene: self),
-                                               TaxiState2(scene: self),
-                                               RequestCrossState(scene: self)]
+        stateMachine = GKStateMachine(states: [
+            GetSenderIDState(scene: self),
+            DepartureState(scene: self),
+            TaxiState(scene: self),
+            RequestTakeoffState(scene: self),
+            TakeoffState(scene: self),
+            RequestLandingState(scene: self),
+            LandingState(scene: self),
+            RequestTaxiState(scene: self),
+            TaxiState2(scene: self),
+            RequestCrossState(scene: self),
+        ]
         )
 
         stateMachine?.enter(GetSenderIDState.self)
@@ -74,7 +76,7 @@ class GameScene: SKScene {
     }
 
     // MARK: - Functions
-    func setViewModel(viewModel: LevelDetailViewModelRepresentable?) {
+    func setViewModel(_ viewModel: LevelDetailViewModelRepresentable?) {
         self.viewModel = viewModel
     }
 
