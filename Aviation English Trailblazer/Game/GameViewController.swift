@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import AVFoundation
 import GameplayKit
 import MicrosoftCognitiveServicesSpeech
 import SpriteKit
@@ -15,7 +16,7 @@ protocol GameViewControllerNavigation: AnyObject {
     func didPressExit(senderIDArr: [String])
 }
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, AVAudioRecorderDelegate {
     // MARK: - Outlets
     @IBOutlet private var skView: SKView!
     @IBOutlet private var exitButton: UIButton!
@@ -37,15 +38,22 @@ class GameViewController: UIViewController {
     private var sub: String!
     private var region: String!
 
-    // Speech to text
+    /// Speech to text
     private var reco: SPXSpeechRecognizer?
     private var inputStack = Stack()
     private var isWordConfirmed: Bool = true
 
-    // Text to speech
+    /// Text to speech
     private var synthesizer: SPXSpeechSynthesizer?
-    private var voice: String = "en-US-GuyNeural"
+    // private var voice: String = "en-US-GuyNeural"
     private var isSynthesizerSpeaking: Bool = false
+
+    private var speechConfig: SPXSpeechConfiguration!
+
+    /// Audio record for pronunciation assessment
+//    private var recordingSession: AVAudioSession = .sharedInstance()
+//    private var audioRecorder: AVAudioRecorder?
+//    private var numOfRecorder: Int = 0
 
     // MARK: - Initialization
     init(viewModel: LevelDetailViewModelRepresentable) {
@@ -65,6 +73,11 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        /// load subscription information
+        sub = "089b98e458c7445faa685d919a1c9ca8"
+        region = "eastasia"
+
+        /// Setup UI
         setupSpriteKitView()
 
         setupTimerLabel()
@@ -81,12 +94,28 @@ class GameViewController: UIViewController {
 
         setupSpeechLogTextView()
 
-        /// Setup Microsoft Cognitive Services Speech SDK
-        sub = "089b98e458c7445faa685d919a1c9ca8"
-        region = "eastasia"
+        /// Setup recording session
+//        do {
 
-        /// Game over by time out
+        /// Audio record for pronunciation assessment
+//        try! recordingSession.setCategory(.playAndRecord, mode: .default)
+//        try! recordingSession.setActive(true)
+//            recordingSession.requestRecordPermission { [unowned self] allowed in
+//                DispatchQueue.main.async {
+//                    if allowed {
+//                        //
+//                    } else {
+//                        // failed to record!
+//                    }
+//                }
+//            }
+//        } catch {
+//            // failed to record!
+//        }
+
+        /// Create a timer and schedules it on the current run loop
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
+            /// Game over with time out
             if !timerLabel.isRunning() {
                 print("Time out")
                 timer.invalidate()
@@ -96,15 +125,11 @@ class GameViewController: UIViewController {
                 timerLabel.pauseTimer()
                 navigationDelegate?.didPressExit(senderIDArr: scene!.senderIDArr)
             }
-        }
 
-        /// Game over by finish level
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
+            /// Game over with finish level
             if planeQtyLabel.getFinishQty() == planeQtyLabel.getTotalQty() {
                 print("Level finished")
                 timer.invalidate()
-                /// Stop text to speech
-                stopSynthesis()
                 /// Stop timer
                 timerLabel.pauseTimer()
                 navigationDelegate?.didPressExit(senderIDArr: scene!.senderIDArr)
@@ -131,29 +156,49 @@ class GameViewController: UIViewController {
     }
 
     // MARK: - Funtions
-    /// Push To Talk Pushed.
+    /// Push To Talk button Pushed.
     @objc func PTTPush() {
         print("Pushed")
 
+        /// Clear textVeiw text
+        /// UI Update use main thread
+        DispatchQueue.main.async { [self] in
+            speechRecognizeTextView.text = ""
+            inputStack.popAll()
+        }
+
+        /// Audio record for pronunciation assessment
+//        DispatchQueue.main.async {
+//            self.startAudioRecording()
+//        }
         recognizeFromMic()
+        // pronunciationAssessFromMic()
     }
 
-    /// Push To Talk Released.
+    /// Push To Talk button Released.
     @objc func PTTRelease() {
         print("Released")
 
         stopRecognizeFromMic()
+        /// Audio record for pronunciation assessment
+//        stopAudioRecording()
+//        DispatchQueue.global().async {
+//            self.pronunciationAssessFromFile(reference: "Alpha Sierra Romeo 556, taxi via Hotel, holding point of Bravo 1, expect runway 28 Right, western departure")
+//        }
 
-        // speechRecognizeTextView.text = "ALPHA SIERRA ROMEO 556 taxi via Hotel holding point of Bravo 1 expect runway 28 Right western departure"
-
+        /// Add User Speech
         speechLogTextView.addColoredSpeech(speaker: "ATC", input: speechRecognizeTextView.text, color: .white)
 
         let parameters = RasaRequest(message: speechRecognizeTextView.text, sender: scene!.senderID)
 
-        /// Empty text ready for next speech
-        speechRecognizeTextView.text = ""
-        inputStack.popAll()
+        /// Clear text ready for next speech
+        /// UI Update use main thread
+        DispatchQueue.main.async { [self] in
+            speechRecognizeTextView.text = ""
+            inputStack.popAll()
+        }
 
+        /// Get Result from Rasa
         AF.request("http://atcrasa.eastasia.azurecontainer.io:6000/webhooks/rest/webhook", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseDecodable(of: RasaResponse.self) { [self] response in
             switch response.result {
                 case .success(let JSON):
@@ -164,9 +209,15 @@ class GameViewController: UIViewController {
                     /// Add text to log view
                     speechLogTextView.addColoredSpeech(speaker: (response.value?.callsign)!, input: response.value!.text, color: .yellow)
 
+                    /// Making sound
                     DispatchQueue.global(qos: .userInitiated).async {
                         synthesisToSpeaker(response.value?.text ?? "")
                     }
+
+                    /// Get reference sentence form Rasa and do the pronunciation assessment
+//                    DispatchQueue.global().async {
+//                          self.pronunciationAssessFromFile(reference: "")
+//                    }
 
                     if (response.value?.havepermission)! {
                         scene?.stateMachine?.enter(TaxiState.self)
@@ -183,6 +234,129 @@ class GameViewController: UIViewController {
         }
     }
 
+    ///  Audio record for pronunciation assessment
+//    func startAudioRecording() {
+//        let audioFileURL = getDocumentsDirectory().appendingPathComponent("recording.wav")
+//
+//        let settings: [String: Any] = [
+//            AVFormatIDKey: kAudioFormatLinearPCM,
+//            AVSampleRateKey: 16000, // or 8000
+//            AVNumberOfChannelsKey: 1,
+//            AVLinearPCMBitDepthKey: 16,
+//        ]
+//
+//        do {
+//            audioRecorder = try AVAudioRecorder(url: audioFileURL, settings: settings)
+//            audioRecorder?.delegate = self
+//
+//            print("Start audio recording")
+//            audioRecorder?.record()
+//
+//        } catch {
+//            print("Audio recording error: \(error)")
+//            // Stop recording
+//            stopAudioRecording()
+//        }
+//    }
+//
+//    ///  Audio record for pronunciation assessment
+//    func stopAudioRecording() {
+//        print("Stop audio recording")
+//        audioRecorder?.stop()
+//        audioRecorder = nil
+//
+//        let audioFileURL = getDocumentsDirectory().appendingPathComponent("recording.wav")
+//
+//        let audioAsset = AVURLAsset(url: audioFileURL)
+//        print("Audio file size: \(audioAsset.fileSize ?? 0)")
+//    }
+
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+
+    func pronunciationAssessFromFile(reference text: String) {
+        let pronFile = getDocumentsDirectory().appendingPathComponent("recording.wav")
+
+        guard let pronAudioSource = SPXAudioConfiguration(wavFileInput: pronFile.path) else { return }
+
+        let speechConfig = try! SPXSpeechConfiguration(subscription: sub, region: region)
+        speechConfig.speechRecognitionLanguage = "en-HK"
+        // speechConfig.setPropertyTo("3000", by: .speechServiceConnectionEndSilenceTimeoutMs)
+
+        let speechRecognizer = try! SPXSpeechRecognizer(speechConfiguration: speechConfig, audioConfiguration: pronAudioSource)
+
+        /// Create pronunciation assessment config
+        let pronunicationConfig = try! SPXPronunciationAssessmentConfiguration(text, gradingSystem: .hundredMark, granularity: .word, enableMiscue: true)
+
+        try! pronunicationConfig.apply(to: speechRecognizer)
+        print("Assessing")
+
+        /// connect callback
+        speechRecognizer.addRecognizedEventHandler { _, evt in
+            let jsonResult = evt.result.properties?.getPropertyBy(.speechServiceResponseJsonResult)
+
+            let jsonResultData = jsonResult?.data(using: .utf8)
+
+            let pronunciationAssessmentResult = try? JSONDecoder().decode(PronunciationAssessmentResult.self, from: jsonResultData!)
+
+            let words = pronunciationAssessmentResult?.nBest[0].words
+
+            for word in words ?? [] {
+                /// For-in loop requires '[Word]?' to conform to 'Sequence'; did you mean to unwrap optional?
+                /// https://stackoverflow.com/questions/64404208/for-in-loop-requires-uservehicles-to-conform-to-sequence-did-you-mean-to/64404236#:~:text=for%20i%20in%20vehicleList%3F._embedded.userVehicles%20%3F%3F%20%5B%5D%20%7B%20%7D
+                print(word)
+            }
+
+            // print(pronunciationAssessmentResult?.nBest[0].words[0].word ?? "")
+
+            print()
+
+            let pronunciationResult = SPXPronunciationAssessmentResult(evt.result)
+
+            #if DEBUG
+                print("""
+                Received final result event.
+                Recognition result: \(evt.result.text ?? "")
+                Accuracy score: \(pronunciationResult?.accuracyScore ?? 0)
+                Pronunciation score: \(pronunciationResult?.pronunciationScore ?? 0)
+                Completeness Score: \(pronunciationResult?.completenessScore ?? 0)
+                Fluency score: \(pronunciationResult?.fluencyScore ?? 0)
+                """)
+            #endif
+        }
+
+        var end = false
+
+        speechRecognizer.addCanceledEventHandler { _, evt in
+            let details: SPXCancellationDetails = try! SPXCancellationDetails(fromCanceledRecognitionResult: evt.result)
+            #if DEBUG
+                debugPrint("Pronunciation assessment was canceled: \(details.errorDetails ?? "")Did you pass the correct key/region combination?")
+            #endif
+            end = true
+        }
+
+        /// session stopped callback to recognize stream has ended
+        speechRecognizer.addSessionStoppedEventHandler { _, evt in
+            #if DEBUG
+                debugPrint("Received session stopped event. SessionId: \(evt.sessionId)")
+            #endif
+            end = true
+        }
+
+        /// start recognizing
+        try! speechRecognizer.startContinuousRecognition()
+
+        /// wait until a session stopped event has been received
+        while end == false {
+            sleep(1)
+        }
+
+        try! speechRecognizer.stopContinuousRecognition()
+    }
+
+    // MARK: - SST Funtions
     func recognizeFromMic() {
         print("Listening...")
 
@@ -204,7 +378,6 @@ class GameViewController: UIViewController {
 
         /// Connect callback
         reco!.addRecognizingEventHandler { [self] _, evt in
-
             print("RECOGNIZING: \(evt.result.text ?? "")")
 
             if isWordConfirmed {
@@ -219,7 +392,6 @@ class GameViewController: UIViewController {
         }
 
         reco!.addRecognizedEventHandler { [self] _, evt in
-
             if evt.result.reason == .recognizedSpeech {
                 print("RECOGNIZED: \(evt.result.text ?? "")")
 
@@ -274,6 +446,7 @@ class GameViewController: UIViewController {
         }
     }
 
+    // MARK: - Setup UI Funtions
     func updateLabel() {
         DispatchQueue.main.async { [self] in
             speechRecognizeTextView.text = inputStack.printAll()
@@ -312,7 +485,7 @@ class GameViewController: UIViewController {
 
     private func setupTimerLabel() {
         /// Set timer to 10 minutes
-        timerLabel.resetTimer(seconds: 9000)
+        timerLabel.resetTimer(seconds: 1800)
     }
 
     private func setupATISLabel() {
@@ -350,8 +523,8 @@ class GameViewController: UIViewController {
 
 extension GameViewController: GameSceneDelegate {
     func gameSceneDidEnd(_ gameScene: GameScene) {
-//        guard let viewModel = viewModel else { return }
-//        navigationDelegate?.gameViewController(self, didEndGameWith: viewModel.score.value)
+        // guard let viewModel = viewModel else { return }
+        // navigationDelegate?.gameViewController(self, didEndGameWith: viewModel.score.value)
     }
 
     /// Add Rasa returned text to speechLogTextView
@@ -373,6 +546,7 @@ extension GameViewController: GameSceneDelegate {
         planeQtyLabel.finishQtyPlusOne()
     }
 
+    // MARK: - TTS Funtions
     func synthesisToSpeaker(_ text: String) {
         if text.isEmpty {
             return
@@ -383,9 +557,9 @@ extension GameViewController: GameSceneDelegate {
         do {
             try speechConfig = SPXSpeechConfiguration(subscription: sub, region: region)
             /// Set the synthesis language
-            speechConfig?.speechSynthesisLanguage = String(voice.prefix(5))
+            //            speechConfig?.speechSynthesisLanguage = String(voice.prefix(5))
             /// Set the voice name
-            speechConfig?.speechSynthesisVoiceName = voice
+            //            speechConfig?.speechSynthesisVoiceName = voice
             /// Set the synthesis output format
             speechConfig?.setSpeechSynthesisOutputFormat(.riff16Khz16BitMonoPcm)
         } catch {
@@ -423,16 +597,16 @@ extension GameViewController: GameSceneDelegate {
             self.isSynthesizerSpeaking = false
         }
 
-        synthesizer!.addSynthesisWordBoundaryEventHandler { _, evt in
-            print("Word boundary event received. Audio offset: \(evt.audioOffset / 10000), text offset: \(evt.textOffset), word length: \(evt.wordLength)")
+        synthesizer!.addSynthesisWordBoundaryEventHandler { _, _ in
+//            print("Word boundary event received. Audio offset: \(evt.audioOffset / 10000), text offset: \(evt.textOffset), word length: \(evt.wordLength)")
 
             self.isSynthesizerSpeaking = true
         }
 
         do {
-            /// Make a 0.5s pause between two speech
+            /// Make a 0.1s pause between two speech
             while isSynthesizerSpeaking {
-                sleep(UInt32(0.5))
+                sleep(UInt32(0.1))
             }
             try synthesizer?.speakText(text.replacingOccurrences(matchingPattern: "\\d", replacementProvider: { numbers[$0] }))
 

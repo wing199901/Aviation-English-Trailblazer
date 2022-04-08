@@ -20,6 +20,7 @@
 		A32CA97F2747A5FF0050C150 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA97A2747A5FE0050C150 /* Stack.swift */; };
 		A32CA9802747A5FF0050C150 /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA97B2747A5FE0050C150 /* Voice.swift */; };
 		A32CA9812747A5FF0050C150 /* TextToSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32CA97C2747A5FF0050C150 /* TextToSpeech.swift */; };
+		A358CB6F27A2830500D876C0 /* AVURLAsset+fileSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A358CB6E27A2830500D876C0 /* AVURLAsset+fileSize.swift */; };
 		A395823527391DF200651C53 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A395823427391DF200651C53 /* GameViewController.swift */; };
 		A3982D9727461019005A2827 /* TimerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3982D9627461019005A2827 /* TimerLabel.swift */; };
 		A3982D9927461221005A2827 /* PlaneQtyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3982D9827461220005A2827 /* PlaneQtyLabel.swift */; };
@@ -43,6 +44,7 @@
 		A3B1A21327354AAB00AC3DC2 /* LevelDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A21227354AAB00AC3DC2 /* LevelDetailViewModel.swift */; };
 		A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */; };
 		A3C359B42754E43C00097634 /* SpeechLogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C359B32754E43C00097634 /* SpeechLogTextView.swift */; };
+		A3C93208279A6ADE00174B5E /* pronunciationAssessmentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C93207279A6ADE00174B5E /* pronunciationAssessmentResult.swift */; };
 		A3CC1EA32758B721000F2201 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CC1EA22758B721000F2201 /* Path.swift */; };
 		A3CD7E242738E45D00CA45D9 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD7E232738E45D00CA45D9 /* GameViewController.xib */; };
 		A3CD7E262738E69D00CA45D9 /* GameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */; };
@@ -96,6 +98,7 @@
 		A32CA97B2747A5FE0050C150 /* Voice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
 		A32CA97C2747A5FF0050C150 /* TextToSpeech.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextToSpeech.swift; sourceTree = "<group>"; };
 		A34527732734D2DE001717F1 /* Aviation English Trailblazer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aviation English Trailblazer-Bridging-Header.h"; sourceTree = "<group>"; };
+		A358CB6E27A2830500D876C0 /* AVURLAsset+fileSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVURLAsset+fileSize.swift"; sourceTree = "<group>"; };
 		A395823427391DF200651C53 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		A3982D9627461019005A2827 /* TimerLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerLabel.swift; sourceTree = "<group>"; };
 		A3982D9827461220005A2827 /* PlaneQtyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaneQtyLabel.swift; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 		A3B1A21227354AAB00AC3DC2 /* LevelDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDetailViewModel.swift; sourceTree = "<group>"; };
 		A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
 		A3C359B32754E43C00097634 /* SpeechLogTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechLogTextView.swift; sourceTree = "<group>"; };
+		A3C93207279A6ADE00174B5E /* pronunciationAssessmentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pronunciationAssessmentResult.swift; sourceTree = "<group>"; };
 		A3CC1EA22758B721000F2201 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		A3CD7E232738E45D00CA45D9 /* GameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
 		A3CD7E252738E69D00CA45D9 /* GameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCoordinator.swift; sourceTree = "<group>"; };
@@ -237,9 +241,11 @@
 		A307D778272BB2B9008C7E2A /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */,
 				A3B1A2142735514C00AC3DC2 /* NibLoadable.swift */,
 				A307D779272BB2D7008C7E2A /* UIImage+addTextToImage.swift */,
 				A3982D9E274640A9005A2827 /* String+removingCharacters.swift */,
+				A358CB6E27A2830500D876C0 /* AVURLAsset+fileSize.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -251,6 +257,7 @@
 				A32CA97A2747A5FE0050C150 /* Stack.swift */,
 				A32CA97C2747A5FF0050C150 /* TextToSpeech.swift */,
 				A32CA97B2747A5FE0050C150 /* Voice.swift */,
+				A3C93207279A6ADE00174B5E /* pronunciationAssessmentResult.swift */,
 			);
 			path = Speech;
 			sourceTree = "<group>";
@@ -306,7 +313,6 @@
 				A39C767127573D38000F9AC4 /* RasaModel.swift */,
 				A3C359B32754E43C00097634 /* SpeechLogTextView.swift */,
 				A3982D9627461019005A2827 /* TimerLabel.swift */,
-				A3EB0A6F2768A593007737BF /* String+replacingOccurrences.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -537,6 +543,7 @@
 				A3A226C42734161600A8D990 /* MenuViewModel.swift in Sources */,
 				A3A22697272FDF5D00A8D990 /* Plane.swift in Sources */,
 				A3A226BB2734117100A8D990 /* AppCoordinator.swift in Sources */,
+				A3C93208279A6ADE00174B5E /* pronunciationAssessmentResult.swift in Sources */,
 				A3B1A2152735514C00AC3DC2 /* NibLoadable.swift in Sources */,
 				A32CA9802747A5FF0050C150 /* Voice.swift in Sources */,
 				A3CE78CB2734C9D2000A7747 /* LevelCoordinator.swift in Sources */,
@@ -548,6 +555,7 @@
 				A3CE78CA2734C9D2000A7747 /* LevelViewController.swift in Sources */,
 				A3A226B72733FE6200A8D990 /* NavigatorTransitionType.swift in Sources */,
 				A307D77A272BB2D7008C7E2A /* UIImage+addTextToImage.swift in Sources */,
+				A358CB6F27A2830500D876C0 /* AVURLAsset+fileSize.swift in Sources */,
 				A3DB4DB4275FCCB500CBBAAC /* GameOverCoordinator.swift in Sources */,
 				A3DB4DB6275FCCB500CBBAAC /* GameOverViewController.swift in Sources */,
 				A39C767227573D38000F9AC4 /* RasaModel.swift in Sources */,

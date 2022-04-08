@@ -150,7 +150,7 @@ class GetSenderIDState: GKState {
                                 /// Display call sign under plane sprite
                                 scene.plane.updateCallSignText(response.value?.callsign_short ?? "")
 
-                                /// crossable decide npc hidden
+                                /// Crossable decide npc hidden
                                 if response.value?.crossable ?? false {
                                     scene.npc.node.isHidden = false
                                     /// taxi from J1 to 22L
@@ -228,17 +228,18 @@ class DepartureState: GKState {
                     /// Store Rasa Responce for next state use
                     scene.rasaData = response.value
 
-                    /// Set postion and heading when plane spawn
+                    /// Set postion when plane spawn
                     switch response.value?.spawn {
                         case "TERMINAL":
                             scene.sceneDelegate?.setPlanePosition(spawnPoint: .Terminal)
-                        // scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
                         case "APRON":
                             scene.sceneDelegate?.setPlanePosition(spawnPoint: .Eastern)
-                        // scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
                         default:
-                            scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
+                            break
                     }
+
+                    /// Set plane heading
+                    scene.plane.node.zRotation = CGFloat(80).degreesToRadians()
 
                 case .failure(let error):
                     #if DEBUG
@@ -308,6 +309,9 @@ class RequestCrossState: GKState {
         #if DEBUG
         debugPrint("Enter request cross state")
         #endif
+
+        /// NPC plane takeoff first
+        scene.npc.node.run(scene.actions.takeoff22L)
 
         /// Rasa request cross
         let parameters = RasaRequest(message: "ready cross", sender: scene.senderID)
